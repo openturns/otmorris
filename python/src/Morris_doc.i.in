@@ -1,4 +1,4 @@
-%define OTMORRIS_Morris_doc
+%feature("docstring") OTMORRIS::Morris
 "Morris method.
 
 Available constructors:
@@ -75,13 +75,10 @@ Examples
 >>> mean_abs_effects = morris.getMeanAbsoluteElementaryEffects()
 >>> sigma_effects = morris.getStandardDeviationElementaryEffects()
 "
-%enddef
-%feature("docstring") OTMORRIS::Morris
-OTMORRIS_Morris_doc
 
 // ---------------------------------------------------------------------
 
-%define OTMORRIS_Morris_getMeanEffects_doc
+%feature("docstring") OTMORRIS::Morris::getMeanElementaryEffects
 "Get the mean of elementary effects.
 
 Parameters
@@ -93,16 +90,11 @@ Returns
 -------
 mean: :py:class:`openturns.Point`
     The mean effects.
-
 "
-%enddef
-%feature("docstring") OTMORRIS::Morris::getMeanElementaryEffects
-OTMORRIS_Morris_getMeanEffects_doc
-
 
 // ---------------------------------------------------------------------
 
-%define OTMORRIS_Morris_getMeanAbsoluteEffects_doc
+%feature("docstring") OTMORRIS::Morris::getMeanAbsoluteElementaryEffects
 "Get the mean of absolute elementary effects.
 
 Parameters
@@ -114,17 +106,11 @@ Returns
 -------
 mean: :py:class:`openturns.Point`
     The mean effects.
-
 "
-%enddef
-%feature("docstring") OTMORRIS::Morris::getMeanAbsoluteElementaryEffects
-OTMORRIS_Morris_getMeanAbsoluteEffects_doc
-
 
 // ---------------------------------------------------------------------
 
-
-%define OTMORRIS_Morris_getStandardDeviationEffects_doc
+%feature("docstring") OTMORRIS::Morris::getStandardDeviationElementaryEffects
 "Get the standard deviation of elementary effects.
 
 Parameters
@@ -137,6 +123,25 @@ Returns
 mean: :py:class:`openturns.Point`
     The standard effects
 "
-%enddef
-%feature("docstring") OTMORRIS::Morris::getStandardDeviationElementaryEffects
-OTMORRIS_Morris_getStandardDeviationEffects_doc
+
+// ---------------------------------------------------------------------
+
+%feature("docstring") OTMORRIS::Morris::getInputSample
+"Accessor to the input sample.
+
+Returns
+-------
+inputSample : :py:class:`openturns.Sample`
+    The input sample
+"
+
+// ---------------------------------------------------------------------
+
+%feature("docstring") OTMORRIS::Morris::getOutputSample
+"Accessor to the output sample.
+
+Returns
+-------
+inputSample : :py:class:`openturns.Sample`
+    The output sample
+"

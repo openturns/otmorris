@@ -3,7 +3,6 @@ cmake_minimum_required ( VERSION 2.8 )
 option ( BUILD_PYTHON                 "Build the python module for the library"                               ON )
 option (USE_SPHINX                    "Use sphinx for documentation"                                          ON)
 option ( LINK_PYTHON_LIBRARY          "Link python modules against python library"                            ON )
-option ( INSTALL_TESTS                "Install compiled tests for native platform testing"                    OFF )
 option ( BUILD_SHARED_LIBS            "Build shared libraries"                                                ON )
 
 # By default, build in Release mode. Must appear before project() command
@@ -57,23 +56,32 @@ if ( BUILD_PYTHON )
     find_program (SPHINX_EXECUTABLE NAMES sphinx-build DOC "Sphinx Documentation Builder (sphinx-doc.org)")
     if (SPHINX_EXECUTABLE)
       find_python_module (sphinx 1.1)
+      find_python_module (numpydoc)
     endif ()
   endif ()
 
   if ( PYTHONINTERP_FOUND )
-    execute_process ( COMMAND ${PYTHON_EXECUTABLE} -c "from distutils import sysconfig; print(sysconfig.get_python_lib(plat_specific=True, prefix='${CMAKE_INSTALL_PREFIX}'))"
-                      OUTPUT_VARIABLE _ABS_PYTHON_MODULE_PATH
-                      RESULT_VARIABLE _PYTHON_pythonlib_result 
-                      OUTPUT_STRIP_TRAILING_WHITESPACE )
-
-    if (NOT _PYTHON_pythonlib_result) 
-      get_filename_component ( _ABS_PYTHON_MODULE_PATH ${_ABS_PYTHON_MODULE_PATH} ABSOLUTE )
-      file ( RELATIVE_PATH _REL_PYTHON_MODULE_PATH ${CMAKE_INSTALL_PREFIX} ${_ABS_PYTHON_MODULE_PATH} )                   
-
-      set (OTMORRIS_PYTHON_MODULE_PATH ${_REL_PYTHON_MODULE_PATH})
+    if (DEFINED PYTHON_SITE_PACKAGES)
+      set (OTMORRIS_PYTHON_MODULE_PATH ${PYTHON_SITE_PACKAGES})
 
     else ()
-      message ( SEND_ERROR "Could not run ${PYTHON_EXECUTABLE}" ) 
+      execute_process ( COMMAND ${PYTHON_EXECUTABLE} -c "from distutils import sysconfig; print(sysconfig.get_python_lib(plat_specific=True, prefix='${CMAKE_INSTALL_PREFIX}'))"
+                        OUTPUT_VARIABLE _ABS_PYTHON_MODULE_PATH
+                        RESULT_VARIABLE _PYTHON_pythonlib_result
+                        OUTPUT_STRIP_TRAILING_WHITESPACE )
+
+      if (_PYTHON_pythonlib_result)
+        message (SEND_ERROR "Could not run ${PYTHON_EXECUTABLE}")
+      endif ()
+
+      get_filename_component (_ABS_PYTHON_MODULE_PATH ${_ABS_PYTHON_MODULE_PATH} ABSOLUTE)
+      file (RELATIVE_PATH OTMORRIS_PYTHON_MODULE_PATH ${CMAKE_INSTALL_PREFIX} ${_ABS_PYTHON_MODULE_PATH})
+    endif ()
+
+    if (IS_ABSOLUTE ${OTMORRIS_PYTHON_MODULE_PATH})
+      set (PYTHON_MODULE_PATH ${OTMORRIS_PYTHON_MODULE_PATH})
+    else ()
+      set (PYTHON_MODULE_PATH ${CMAKE_INSTALL_PREFIX}/${OTMORRIS_PYTHON_MODULE_PATH})
     endif ()
 
     if (CMAKE_VERSION VERSION_LESS "2.8.6")

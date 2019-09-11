@@ -94,7 +94,7 @@ Interval MorrisExperiment::getBounds() const
 /** Generate method */
 Sample MorrisExperiment::generate() const
 {
-  throw NotYetImplementedException(HERE);
+  throw NotYetImplementedException(HERE) << "in MorrisExperiment::generate";
 }
 
 /* String converter */

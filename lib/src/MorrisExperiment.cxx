@@ -73,17 +73,6 @@ MorrisExperiment * MorrisExperiment::clone() const
 }
 
 
-// Build the p-th column of the orientation matrix
-Point MorrisExperiment::getOrientationMatrixColumn(const UnsignedInteger p) const
-{
-  const UnsignedInteger dimension(delta_.getDimension());
-  if (p >= dimension)
-    throw InvalidArgumentException(HERE) << "Could not build the column";
-  Point orientation(dimension + 1, 1.0);
-  for (UnsignedInteger i = 0; i <= p; ++i) orientation[i] = -1.0;
-  return orientation;
-}
-
 /* Get the interval values */
 Interval MorrisExperiment::getBounds() const
 {

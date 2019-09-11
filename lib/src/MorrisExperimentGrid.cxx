@@ -152,8 +152,8 @@ Sample MorrisExperimentGrid::generateTrajectory() const
     // Steps 5 and 6
     for (UnsignedInteger p = 0; p < dimension; ++p)
     {
-      const Point orientationMatrixColumn(getOrientationMatrixColumn(p));
-      Scalar value((orientationMatrixColumn[i] * directions[p] + 1.0) * 0.5 * delta[p]);
+      const Scalar orientationMatrixColumnI = (i <= p) ? -1.0 : 1.0;
+      Scalar value = (orientationMatrixColumnI * directions[p] + 1.0) * 0.5 * delta[p];
       // Check that direction is admissible
       if ( (value + xBase[p] > 1.0) || (value + xBase[p] < 0.0))
       {

@@ -73,9 +73,6 @@ public:
 
 protected:
 
-  // Build the p-th column of an orientation matrix
-  OT::Point getOrientationMatrixColumn(const OT::UnsignedInteger p) const;
-
   // Bounds
   OT::Interval interval_;
 

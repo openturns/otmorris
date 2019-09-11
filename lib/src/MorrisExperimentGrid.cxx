@@ -87,17 +87,13 @@ Sample MorrisExperimentGrid::generate() const
   uniqueTrajectories.getImplementation()->setData(realizations.getImplementation()->getData());
   // Sort and keep unique data
   uniqueTrajectories = uniqueTrajectories.sortUnique();
-  Bool addTrajectories(false);
-  if (uniqueTrajectories.getSize() != N_)
-    addTrajectories = true;
-  while (addTrajectories)
+  while (uniqueTrajectories.getSize() < N_)
   {
     // Add a trajectory
     Sample newTrajectory(generateTrajectory());
     uniqueTrajectories.add(newTrajectory.getImplementation()->getData());
     // Sort and keep unique data
     uniqueTrajectories = uniqueTrajectories.sortUnique();
-    addTrajectories = uniqueTrajectories.getSize() < N_;
   }
   // return sample
   realizations = Sample(uniqueTrajectories.getSize() * (dimension + 1), dimension);

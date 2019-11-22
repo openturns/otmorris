@@ -65,7 +65,6 @@ class PlotEE(object):
                 txt, (mean[i] + 0.05 * dmu, sigma[i] + 0.05 * dsg))
         self._ax.set_xlabel(r"$\boldsymbol{\mu}$", fontsize=14)
         self._ax.set_ylabel(r"$\boldsymbol{\sigma}$", fontsize=14)
-        self._ax.legend(loc=0)
         self._ax.grid(True)
         self._fig.suptitle(title, fontsize=18)
 

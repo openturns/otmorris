@@ -136,8 +136,10 @@ Sample MorrisExperimentGrid::generateTrajectory() const
 
   // Define the permutations
   const Point permutations(permutationDistribution.getRealization());
+  Log::Debug(OSS() << "Permutation generated = " << permutations);
   // Define the direction
   const Point directions(directionDistribution.getSample(dimension).getImplementation()->getData());
+  Log::Debug(OSS() << "directions = " << directions);
 
   // We start by setting the initial point
   for (UnsignedInteger i = 0; i < dimension; ++i)

@@ -203,7 +203,7 @@ void MorrisExperimentGrid::setJumpStep(const Indices & jumpStep)
   // Check that with N <= full design size
   // otherwise we update N
   if (!(N_ <= fullDesignSize))
-    throw InvalidArgumentException (HERE) << "You are requiring " << N_ << "trajectories whereas number of possibilites is " << fullDesignSize;
+    throw InvalidArgumentException (HERE) << "You are requiring " << N_ << " trajectories whereas number of possibilites is " << fullDesignSize;
 }
 
 /* String converter */

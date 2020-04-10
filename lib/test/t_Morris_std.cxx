@@ -9,7 +9,7 @@
 using namespace OT;
 using namespace OTMORRIS;
 
-int main(int argc, char **argv)
+int main(void)
 {
   // Use Case 1 : define a k-grid level (so delta = 1/(k-1))
   const UnsignedInteger r = 5;

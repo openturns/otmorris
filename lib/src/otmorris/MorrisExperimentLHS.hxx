@@ -47,19 +47,19 @@ public:
   MorrisExperimentLHS(const OT::Sample & lhsDesign, const OT::Interval & interval, const OT::UnsignedInteger N);
 
   /** Virtual constructor method */
-  MorrisExperimentLHS * clone() const;
+  MorrisExperimentLHS * clone() const override;
 
   /** Generate method */
-  OT::Sample generate() const;
+  OT::Sample generate() const override;
 
   /** String converter */
-  OT::String __repr__() const;
+  OT::String __repr__() const override;
 
   /** Method save() stores the object through the StorageManager */
-  virtual void save(OT::Advocate & adv) const;
+  void save(OT::Advocate & adv) const override;
 
   /** Method load() reloads the object from the StorageManager */
-  virtual void load(OT::Advocate & adv);
+  void load(OT::Advocate & adv) override;
 
 protected:
   /** Default constructor for save/load mechanism */

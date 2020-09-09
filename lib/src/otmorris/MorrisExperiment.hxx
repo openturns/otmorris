@@ -54,22 +54,22 @@ public:
   MorrisExperiment(const OT::Point & delta, const OT::UnsignedInteger N);
 
   /** Virtual constructor method */
-  MorrisExperiment * clone() const;
+  MorrisExperiment * clone() const override;
 
   /* Get the interval values */
   OT::Interval getBounds() const;
 
   /** Generate method */
-  virtual OT::Sample generate() const;
+  OT::Sample generate() const override;
 
   /** String converter */
-  OT::String __repr__() const;
+  OT::String __repr__() const override;
 
   /** Method save() stores the object through the StorageManager */
-  virtual void save(OT::Advocate & adv) const;
+  void save(OT::Advocate & adv) const override;
 
   /** Method load() reloads the object from the StorageManager */
-  virtual void load(OT::Advocate & adv);
+  void load(OT::Advocate & adv) override;
 
 protected:
 

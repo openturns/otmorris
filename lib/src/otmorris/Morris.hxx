@@ -47,7 +47,7 @@ public:
   Morris(const MorrisExperiment & experiment, const OT::Function & model);
 
   /** Virtual constructor method */
-  Morris * clone() const;
+  Morris * clone() const override;
 
   // Get Mean/Standard deviation
   OT::Point getMeanAbsoluteElementaryEffects(const OT::UnsignedInteger outputMarginal = 0) const;
@@ -59,13 +59,13 @@ public:
   OT::Sample getOutputSample() const;
 
   /** String converter */
-  OT::String __repr__() const;
+  OT::String __repr__() const override;
 
   /** Method save() stores the object through the StorageManager */
-  virtual void save(OT::Advocate & adv) const;
+  void save(OT::Advocate & adv) const override;
 
   /** Method load() reloads the object from the StorageManager */
-  virtual void load(OT::Advocate & adv);
+  void load(OT::Advocate & adv) override;
 
 protected:
   // Method that allocate and compute effects

@@ -47,13 +47,13 @@ public:
   MorrisExperimentGrid(const OT::Indices & levels, const OT::Interval & interval, const OT::UnsignedInteger N);
 
   /** Virtual constructor method */
-  MorrisExperimentGrid * clone() const;
+  MorrisExperimentGrid * clone() const override;
 
   /** Generate method */
-  OT::Sample generate() const;
+  OT::Sample generate() const override;
 
   /** String converter */
-  OT::String __repr__() const;
+  OT::String __repr__() const override;
 
   /** get/set jumpStep */
   OT::Indices getJumpStep() const;
@@ -61,10 +61,10 @@ public:
   void setJumpStep(const OT::Indices & jumpStep);
 
   /** Method save() stores the object through the StorageManager */
-  virtual void save(OT::Advocate & adv) const;
+  void save(OT::Advocate & adv) const override;
 
   /** Method load() reloads the object from the StorageManager */
-  virtual void load(OT::Advocate & adv);
+  void load(OT::Advocate & adv) override;
 
 protected:
 

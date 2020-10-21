@@ -1,3 +1,19 @@
+= 0.9 release (2020-10-21)
+
+ * Maintenance
+
+= 0.8 release (2018-11-12)
+
+ * Bugfix in grid generation
+
+= 0.7 release (2018-11-12)
+
+ * Simplify code
+
+= 0.6 release (2018-11-12)
+
+ * Maintenance
+
 = 0.5 release (2018-11-12)
 
  * CMake sync with template

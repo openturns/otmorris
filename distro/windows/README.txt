@@ -1,8 +1,5 @@
 # otmorris module
 
-Examples
-  Template examples can be found here: C:\Python27\Lib\site-packages\otmorris\examples\otmorris
-
 Installation
   Silent install can be done with the switch /S (e.g. openturns-otmorris-0.0-py27.exe /S).
   To test otmorris module installation, in an OpenTURNS python console type:

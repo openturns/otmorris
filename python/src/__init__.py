@@ -16,4 +16,4 @@ if sys.platform.startswith('win'):
 
 from .otmorris import *
 
-__version__ = '0.9'
+__version__ = '0.10'

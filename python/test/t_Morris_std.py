@@ -45,3 +45,10 @@ print("Using initial LHS, E(|EE|)  = ",
       morrisEE2.getMeanAbsoluteElementaryEffects())
 print("                   V(|EE|)^{1/2} = ",
       morrisEE2.getStandardDeviationElementaryEffects())
+
+#overflow check
+levels = ot.Indices(168)
+levels.fill(5, 0)
+morris_experiment = otmorris.MorrisExperimentGrid(levels, r)
+grid_bound = morris_experiment.getBounds()
+sample1 = morris_experiment.generate()

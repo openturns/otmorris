@@ -181,7 +181,7 @@ void MorrisExperimentGrid::setJumpStep(const Indices & jumpStep)
   // Update the jump step and check that we still might generate N_ trajectories
   // Compute step & number of total possibilities
   // Depending on direction
-  UnsignedInteger fullDesignSize = 2;
+  Scalar fullDesignSize = 2.;
   for (UnsignedInteger k = 0; k < jumpStep.getSize(); ++k)
   {
     const UnsignedInteger one = 1;

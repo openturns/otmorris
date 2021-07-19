@@ -1,5 +1,5 @@
-.. image:: https://travis-ci.org/openturns/otmorris.svg?branch=master
-    :target: https://travis-ci.org/openturns/otmorris
+.. image:: https://github.com/openturns/otmorris/actions/workflows/build.yml/badge.svg?branch=master
+    :target: https://github.com/openturns/otmorris/actions/workflows/build.yml
 
 OTMORRIS Module
 =================

@@ -2,6 +2,8 @@
 
 set -xe
 
+export SOURCE_DATE_EPOCH=1609455600
+
 cd /tmp
 mkdir build && cd build
 cmake -DCMAKE_INSTALL_PREFIX=~/.local -DCMAKE_CXX_FLAGS="-Wall -Wextra -Werror" /io

@@ -54,6 +54,9 @@ public:
   OT::Point getMeanElementaryEffects(const OT::UnsignedInteger outputMarginal = 0) const;
   OT::Point getStandardDeviationElementaryEffects(const OT::UnsignedInteger outputMarginal = 0) const;
 
+  // Draw result
+  OT::Graph drawElementaryEffects(OT::UnsignedInteger outputMarginal = 0, OT::Bool absoluteMean = true) const;
+
   // Sample accessors
   OT::Sample getInputSample() const;
   OT::Sample getOutputSample() const;

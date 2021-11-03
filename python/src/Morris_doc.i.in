@@ -146,3 +146,23 @@ Returns
 inputSample : :py:class:`openturns.Sample`
     The output sample
 "
+
+// ---------------------------------------------------------------------
+
+%feature("docstring") OTMORRIS::Morris::drawElementaryEffects
+"Draw elementary effects.
+
+Plots mean vs standard deviation of elementary effects.
+
+Parameters
+----------
+marginal : int
+    Output marginal of interest
+absoluteMean : bool, default=True
+    Whether to use absolute mean
+
+Returns
+-------
+mean: :py:class:`openturns.Graph`
+    The elementary effects graph
+"

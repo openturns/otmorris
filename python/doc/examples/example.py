@@ -1,6 +1,7 @@
 import openturns as ot
+from openturns.viewer import View
 import otmorris
-from otmorris.plot_sensitivity import PlotEE
+
 # Number of trajectories
 r = 10
 # Define experiments in [0,1]^20
@@ -13,9 +14,10 @@ X = morris_experiment.generate()
 f = ot.Function(otmorris.MorrisFunction())
 Y = f(X)
 # Evaluate Elementary effects (ee)
-ee = otmorris.Morris(X, Y, bounds)
+morris = otmorris.Morris(X, Y, bounds)
 # Compute mu/sigma
-mean = ee.getMeanAbsoluteElementaryEffects()
-sigma = ee.getStandardDeviationElementaryEffects()
-fig = PlotEE(ee)
-fig.show()
+mean = morris.getMeanAbsoluteElementaryEffects()
+sigma = morris.getStandardDeviationElementaryEffects()
+graph = morris.drawElementaryEffects(0)
+View(graph).show()
+

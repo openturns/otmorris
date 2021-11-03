@@ -22,5 +22,3 @@ mean = ee.getMeanAbsoluteElementaryEffects()
 sigma = ee.getStandardDeviationElementaryEffects()
 fig = PlotEE(ee, title="Elementary Effects using LHS")
 fig.show()
-import matplotlib.pyplot as plt
-plt.show(block=True)

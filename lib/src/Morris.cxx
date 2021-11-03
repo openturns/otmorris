@@ -144,7 +144,7 @@ void Morris::computeEffects(const UnsignedInteger N)
   // elementary effects compute mean
   elementaryEffectsMean_.getImplementation()->setData(elementaryEffects.computeMean());
   absoluteElementaryEffectsMean_.getImplementation()->setData(absoluteElementaryEffects.computeMean());
-  elementaryEffectsStandardDeviation_.getImplementation()->setData(elementaryEffects.computeStandardDeviationPerComponent());
+  elementaryEffectsStandardDeviation_.getImplementation()->setData(elementaryEffects.computeStandardDeviation());
 }
 
 /* Virtual constructor method */

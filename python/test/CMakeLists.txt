@@ -62,9 +62,10 @@ macro ( ot_pyinstallcheck_test TESTNAME )
   list ( APPEND PYINSTALLCHECK_TO_BE_RUN ${TESTNAME_SRC} )
 endmacro ( ot_pyinstallcheck_test )
 
-ot_pyinstallcheck_test ( MorrisExperiment_std )
-ot_pyinstallcheck_test ( Morris_std )
-ot_pyinstallcheck_test ( Morris_bound )
+ot_pyinstallcheck_test (MorrisExperiment_std)
+ot_pyinstallcheck_test (Morris_std)
+ot_pyinstallcheck_test (Morris_bound)
+ot_pyinstallcheck_test (MorrisFunction_std IGNOREOUT)
 if (MATPLOTLIB_FOUND)
 ot_pyinstallcheck_test (docstring)
 

@@ -61,14 +61,17 @@ Reference
 ---------
  - Campolongo, F., S. Tarantola and A. Saltelli. (1999). "Tackling quantitatively
    large dimensionality problems.". Computer Physics Communication 1999: 75–85.
+   `pdf <http://www.andreasaltelli.eu/file/repository/Campolongo_Saltelli1_s2_0_S0010465598001659_main.pdf>`__
  - Morris, M.D. (1991). "Factorial Sampling Plans for Preliminary Computational
    Experiments" (PDF). Technometrics 33: 161–174.
+   `pdf <http://abe.ufl.edu/Faculty/jjones/ABE_5646/2010/Morris.1991%20SA%20paper.pdf>`__
  - Campolongo, Cariboni, Saltelli, F., J.and A. (2003). "Sensitivity analysis: the
    Morris method versus the variance based measures. Submitted to Technometrics"
    (PDF).
  - Andrea Saltelli, Stefano Tarantola,Francesca Campolongo and Marco Ratto
    (2004). "Sensitivity analysis in practice a guide to assessing scientific
    models". John Willy & sons
+   `pdf <http://www.andreasaltelli.eu/file/repository/SALTELLI_2004_Sensitivity_Analysis_in_Practice.pdf>`__
 
 
 Experiments for Morris

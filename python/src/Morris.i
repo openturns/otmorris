@@ -85,8 +85,7 @@ class MorrisFunction(ot.OpenTURNSPythonFunction):
         w = (X - [0.5]*20)*2
         for k in [2,4,6]:
            w[k] = 2.0 * (1.1 * X[k] / (X[k] + 0.1) - 0.5)
-        y = 0.0
-        y = w.dot(b1) if hasattr(w, 'dot') else ot.dot(w, b1) # moved in ot>=1.14
+        y = w.dot(b1)
         # Morris function
         for i in range(19):
             for j in range(i + 1, 20):

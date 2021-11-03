@@ -6,8 +6,6 @@ import numpy as np
 import matplotlib
 import pylab as plt
 import warnings
-matplotlib.rc('text', usetex=True)
-matplotlib.rcParams['text.latex.preamble'] = [r"\usepackage{amsmath}"]
 
 
 class PlotEE(object):
@@ -63,8 +61,8 @@ class PlotEE(object):
         for i, txt in enumerate(input_description):
             self._ax.annotate(
                 txt, (mean[i] + 0.05 * dmu, sigma[i] + 0.05 * dsg))
-        self._ax.set_xlabel(r"$\boldsymbol{\mu}$", fontsize=14)
-        self._ax.set_ylabel(r"$\boldsymbol{\sigma}$", fontsize=14)
+        self._ax.set_xlabel(r"mu", fontsize=14)
+        self._ax.set_ylabel(r"sigma", fontsize=14)
         self._ax.grid(True)
         self._fig.suptitle(title, fontsize=18)
 

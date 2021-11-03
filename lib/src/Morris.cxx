@@ -182,7 +182,9 @@ Point Morris::getStandardDeviationElementaryEffects(const UnsignedInteger margin
 /* Draw result */
 Graph Morris::drawElementaryEffects(UnsignedInteger outputMarginal, Bool absoluteMean) const
 {
-  Graph graph("Elementary effects", "$\\mu$", "$\\sigma$", true);
+  if (outputMarginal >= outputSample_.getDimension())
+    throw InvalidArgumentException(HERE) << "Cannot exceed dimension";
+  Graph graph(OSS() << "Elementary effects", "$\\mu$", "$\\sigma$", true);
   const Point mean(absoluteMean ? getMeanAbsoluteElementaryEffects(outputMarginal) : getMeanElementaryEffects(outputMarginal));
   const Point sigma(getStandardDeviationElementaryEffects(outputMarginal));
   Sample sample(mean.getSize(), 2);
@@ -194,9 +196,10 @@ Graph Morris::drawElementaryEffects(UnsignedInteger outputMarginal, Bool absolut
   const Point delta(sample.getMax() - sample.getMin());
   Cloud cloud(sample, "blue", "fcircle");
   graph.add(cloud);
+  const Description inputDescription(inputSample_.getDescription());
   for (UnsignedInteger i = 0; i < mean.getSize(); ++ i)
   {
-    Text text(Point(1, mean[i] + 0.02 * delta[0]), Point(1, sigma[i] + 0.01 * delta[1]), Description(1, OSS() << "X" << i + 1));
+    Text text(Point(1, mean[i] + 0.02 * delta[0]), Point(1, sigma[i] + 0.01 * delta[1]), Description(1, inputDescription[i]));
     text.setTextSize(1.05);
     text.setColor("black");
     graph.add(text);

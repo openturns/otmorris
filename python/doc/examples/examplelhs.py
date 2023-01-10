@@ -2,9 +2,13 @@ import openturns as ot
 import otmorris
 from openturns.viewer import View
 
+# use the reference 20-d function from the Morris paper
+f = ot.Function(otmorris.MorrisFunction())
+dim = f.getInputDimension()
+
 # Number of trajectories
 r = 10
-dim = 20
+
 # Define an LHS experiment of size 50 in [0, 1]^20
 size = 50
 dist = ot.ComposedDistribution([ot.Uniform(0, 1)] * dim)
@@ -13,10 +17,11 @@ lhsDesign = lhs_experiment.generate()
 morris_experiment = otmorris.MorrisExperimentLHS(lhsDesign, r)
 bounds = ot.Interval(dim) # [0, 1]^2
 X = morris_experiment.generate()
-f = ot.Function(otmorris.MorrisFunction())
 Y = f(X)
+
 # Evaluate Elementary effects (ee)
 morris = otmorris.Morris(X, Y, bounds)
+
 # Compute mu/sigma
 mean = morris.getMeanAbsoluteElementaryEffects()
 sigma = morris.getStandardDeviationElementaryEffects()

@@ -12,9 +12,8 @@ r = 10
 # Define experiments in [0,1]^20
 # p-levels
 p = 5
-dim = 20
 morris_experiment = otmorris.MorrisExperimentGrid([p] * dim, r)
-bounds = ot.Interval(dim) # [0,1]^d
+bounds = ot.Interval(dim)  # [0,1]^d
 X = morris_experiment.generate()
 Y = f(X)
 
@@ -26,4 +25,3 @@ mean = morris.getMeanAbsoluteElementaryEffects()
 sigma = morris.getStandardDeviationElementaryEffects()
 graph = morris.drawElementaryEffects(0)
 View(graph).show()
-

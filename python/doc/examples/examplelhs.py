@@ -15,7 +15,7 @@ dist = ot.ComposedDistribution([ot.Uniform(0, 1)] * dim)
 lhs_experiment = ot.LHSExperiment(dist, size, True, False)
 lhsDesign = lhs_experiment.generate()
 morris_experiment = otmorris.MorrisExperimentLHS(lhsDesign, r)
-bounds = ot.Interval(dim) # [0, 1]^2
+bounds = ot.Interval(dim)  # [0, 1]^20
 X = morris_experiment.generate()
 Y = f(X)
 

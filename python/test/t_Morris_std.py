@@ -45,7 +45,7 @@ print("Using initial LHS, E(|EE|)  = ",
 print("                   V(|EE|)^{1/2} = ",
       morrisEE2.getStandardDeviationElementaryEffects())
 
-#overflow check
+# overflow check
 levels = ot.Indices(168)
 levels.fill(5, 0)
 morris_experiment = otmorris.MorrisExperimentGrid(levels, r)

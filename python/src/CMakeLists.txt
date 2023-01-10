@@ -86,7 +86,7 @@ ot_add_python_module( ${PACKAGE_NAME} ${PACKAGE_NAME}_module.i
                     )
 
 
-install ( FILES __init__.py plot_sensitivity.py
+install ( FILES __init__.py
           DESTINATION ${OTMORRIS_PYTHON_MODULE_PATH}/${PACKAGE_NAME}
         )
 

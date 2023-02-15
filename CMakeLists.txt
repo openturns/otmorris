@@ -44,23 +44,22 @@ set (CMAKE_CXX_STANDARD 11)
 if (BUILD_PYTHON)
   find_package (SWIG 3)
 
-  find_package (PythonInterp 3)
-  find_package (PythonLibs ${PYTHON_VERSION_STRING} EXACT)
-  include (FindPythonModule)
-  find_python_module (matplotlib 1.1)
-
-  if (USE_SPHINX)
-    find_program (SPHINX_EXECUTABLE NAMES sphinx-build DOC "Sphinx Documentation Builder (sphinx-doc.org)")
-    find_python_module (numpydoc)
-    if (SPHINX_EXECUTABLE AND NUMPYDOC_FOUND)
-      find_python_module (sphinx 1.1)
-    endif ()
-    if (NOT SPHINX_FOUND)
-      message (STATUS "Disabling documentation (need sphinx/pandoc/numpydoc)")
-    endif ()
-  endif ()
-
+  find_package (PythonInterp)
   if (PYTHONINTERP_FOUND)
+    find_package (PythonLibs ${PYTHON_VERSION_STRING} EXACT)
+    include (FindPythonModule)
+
+    if (USE_SPHINX)
+      find_program (SPHINX_EXECUTABLE NAMES sphinx-build DOC "Sphinx Documentation Builder (sphinx-doc.org)")
+      find_python_module (numpydoc)
+      if (SPHINX_EXECUTABLE AND NUMPYDOC_FOUND)
+        find_python_module (sphinx 1.1)
+      endif ()
+      if (NOT SPHINX_FOUND)
+        message (STATUS "Disabling documentation (need sphinx/pandoc/numpydoc)")
+      endif ()
+    endif ()
+
     if (DEFINED PYTHON_SITE_PACKAGES)
       set (OTMORRIS_PYTHON_MODULE_PATH "${PYTHON_SITE_PACKAGES}")
     else ()
@@ -187,14 +186,12 @@ set ( OTMORRIS_VERSION_STRING ${PACKAGE_VERSION} )
 set ( OTMORRIS_VERSION_MAJOR ${CPACK_PACKAGE_VERSION_MAJOR} )
 set ( OTMORRIS_VERSION_MINOR ${CPACK_PACKAGE_VERSION_MINOR} )
 set ( OTMORRIS_VERSION_PATCH ${CPACK_PACKAGE_VERSION_PATCH} )
-set ( OTMORRIS_USE_FILE      ${CONFIG_CMAKE_PATH}/UseOTMORRIS.cmake )
 
 include(CMakePackageConfigHelpers)
 configure_package_config_file (cmake/OTMORRISConfig.cmake.in
   ${CMAKE_CURRENT_BINARY_DIR}/OTMORRISConfig.cmake
   INSTALL_DESTINATION ${OTMORRIS_CONFIG_CMAKE_PATH}
   PATH_VARS
-    OTMORRIS_USE_FILE
     OTMORRIS_ROOT_DIR
     OTMORRIS_INCLUDE_DIR
     OTMORRIS_INCLUDE_DIRS
@@ -204,8 +201,7 @@ configure_package_config_file (cmake/OTMORRISConfig.cmake.in
 
 write_basic_package_version_file (OTMORRISConfigVersion.cmake VERSION ${OTMORRIS_VERSION_STRING} COMPATIBILITY AnyNewerVersion)
 
-install (FILES cmake/UseOTMORRIS.cmake
-               ${CMAKE_CURRENT_BINARY_DIR}/OTMORRISConfig.cmake
+install (FILES ${CMAKE_CURRENT_BINARY_DIR}/OTMORRISConfig.cmake
                ${CMAKE_CURRENT_BINARY_DIR}/OTMORRISConfigVersion.cmake
          DESTINATION ${OTMORRIS_CONFIG_CMAKE_PATH})
 

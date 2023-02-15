@@ -9,7 +9,6 @@
 
 # Use the following variables to compile and link against OTMORRIS:
 #  OTMORRIS_FOUND          - True if OTMORRIS was found on your system
-#  OTMORRIS_USE_FILE       - The file making OTMORRIS usable
 #  OTMORRIS_DEFINITIONS    - Definitions needed to build with OTMORRIS
 #  OTMORRIS_INCLUDE_DIRS   - List of directories where OTMORRIS' header file are
 #  OTMORRIS_LIBRARY        - Library name
@@ -22,7 +21,6 @@
 #  OTMORRIS_VERSION_PATCH  - The patch version of OTMORRIS
 
 set ( OTMORRIS_FOUND 1 )
-set ( OTMORRIS_USE_FILE     "@OTMORRIS_USE_FILE@" )
 
 set ( OTMORRIS_DEFINITIONS  "@OTMORRIS_DEFINITIONS@" )
 set ( OTMORRIS_INCLUDE_DIR  "@OTMORRIS_INCLUDE_DIR@" )

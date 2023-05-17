@@ -68,12 +68,17 @@ ot_pyinstallcheck_test (Morris_bound)
 ot_pyinstallcheck_test (MorrisFunction_std IGNOREOUT)
 if (MATPLOTLIB_FOUND)
 ot_pyinstallcheck_test (docstring)
+endif ()
 
-add_test (pyinstallcheck_doc_example ${PYTHON_EXECUTABLE} ${CMAKE_SOURCE_DIR}/python/doc/examples/example.py)
-set_tests_properties (pyinstallcheck_doc_example PROPERTIES ENVIRONMENT "${PYINSTALLCHECK_ENVIRONMENT}")
-
-add_test (pyinstallcheck_doc_examplelhs ${PYTHON_EXECUTABLE} ${CMAKE_SOURCE_DIR}/python/doc/examples/examplelhs.py)
-set_tests_properties (pyinstallcheck_doc_examplelhs PROPERTIES ENVIRONMENT "${PYINSTALLCHECK_ENVIRONMENT}")
+if (MATPLOTLIB_FOUND)
+  file (GLOB_RECURSE PYFILES "${PROJECT_SOURCE_DIR}/python/doc/examples/*.py")
+  foreach (PYF ${PYFILES})
+    if (PYF MATCHES plot)
+      get_filename_component (TESTNAME "${PYF}" NAME_WE)
+      add_test (NAME pyinstallcheck_example_${TESTNAME} COMMAND ${Python_EXECUTABLE} ${PYF})
+      set_tests_properties (pyinstallcheck_example_${TESTNAME} PROPERTIES ENVIRONMENT "${PYINSTALLCHECK_ENVIRONMENT}")
+    endif ()
+  endforeach ()
 endif ()
 
 add_custom_target ( pyinstallcheck COMMAND ${CMAKE_CTEST_COMMAND} -R "^pyinstallcheck_"

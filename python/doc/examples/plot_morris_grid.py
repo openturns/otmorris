@@ -1,5 +1,15 @@
+"""
+Example 1: Morris use-case and p-level input grid
+=================================================
+"""
+
+# %%
+# To define the trajectories, we suppose that the box :math:`[0,1]^{20}` is splitted into a p-level grid (p=5).
+# We set the number of trajectories input variables are randomly to 10.
+
+# %%
 import openturns as ot
-from openturns.viewer import View
+import openturns.viewer as otv
 import otmorris
 
 # use the reference 20-d function from the Morris paper
@@ -24,4 +34,6 @@ morris = otmorris.Morris(X, Y, bounds)
 mean = morris.getMeanAbsoluteElementaryEffects()
 sigma = morris.getStandardDeviationElementaryEffects()
 graph = morris.drawElementaryEffects(0)
-View(graph).show()
+view = otv.View(graph)
+
+otv.View.ShowAll()

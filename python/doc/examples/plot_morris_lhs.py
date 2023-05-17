@@ -1,6 +1,16 @@
+"""
+Example 2: Morris use-case and LHS initial design
+=================================================
+"""
+
+# %%
+# To define the trajectories, we first get an LHS design in the box :math:`[0,1]^{20}` of :math:`size=50`
+# We set the number of trajectories input variables are randomly to 10.
+
+# %%
 import openturns as ot
 import otmorris
-from openturns.viewer import View
+import openturns.viewer as otv
 
 # use the reference 20-d function from the Morris paper
 f = ot.Function(otmorris.MorrisFunction())
@@ -27,4 +37,6 @@ mean = morris.getMeanAbsoluteElementaryEffects()
 sigma = morris.getStandardDeviationElementaryEffects()
 graph = morris.drawElementaryEffects(0)
 graph.setTitle("Elementary Effects using LHS")
-View(graph).show()
+view = otv.View(graph)
+
+otv.View.ShowAll()

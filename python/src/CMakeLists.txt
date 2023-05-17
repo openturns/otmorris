@@ -89,12 +89,6 @@ install ( FILES __init__.py
           DESTINATION ${OTMORRIS_PYTHON_MODULE_PATH}/${PACKAGE_NAME}
         )
 
-install ( FILES ${SWIGFILES}
-          DESTINATION ${OTMORRIS_SWIG_INCLUDE_DIRS}
-        )
-
-
-
 
 if (SPHINX_FOUND)
 

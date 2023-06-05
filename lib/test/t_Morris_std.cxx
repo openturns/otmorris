@@ -2,9 +2,7 @@
 
 // OT includes
 #include <openturns/OT.hxx>
-#include "otmorris/Morris.hxx"
-#include "otmorris/MorrisExperimentGrid.hxx"
-#include "otmorris/MorrisExperimentLHS.hxx"
+#include "otmorris/otmorris.hxx"
 
 using namespace OT;
 using namespace OTMORRIS;

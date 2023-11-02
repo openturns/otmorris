@@ -6,8 +6,9 @@
 
 %include Morris_doc.i
 
+%copyctor OTMORRIS::Morris;
+
 %include otmorris/Morris.hxx
-namespace OTMORRIS { %extend Morris { Morris(const Morris & other) { return new OTMORRIS::Morris(other); } } }
 
 %pythoncode %{
 

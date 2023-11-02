@@ -6,5 +6,6 @@
 
 %include MorrisExperimentGrid_doc.i
 
+%copyctor OTMORRIS::MorrisExperimentGrid;
+
 %include otmorris/MorrisExperimentGrid.hxx
-namespace OTMORRIS { %extend MorrisExperimentGrid { MorrisExperimentGrid(const MorrisExperimentGrid & other) { return new OTMORRIS::MorrisExperimentGrid(other); } } }

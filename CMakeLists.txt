@@ -7,7 +7,7 @@ option (BUILD_SHARED_LIBS            "Build shared libraries"                   
 # By default, build in Release mode. Must appear before project() command
 set( CMAKE_BUILD_TYPE Release CACHE STRING "Build type")
 
-project (OTMORRIS)
+project (otmorris)
 
 string (TOLOWER ${CMAKE_PROJECT_NAME} PACKAGE_NAME)
 
@@ -51,7 +51,7 @@ set (OTMORRIS_INCLUDE_PATH ${CMAKE_INSTALL_INCLUDEDIR})
 set (OTMORRIS_SWIG_INCLUDE_DIRS ${OTMORRIS_INCLUDE_PATH}/${PACKAGE_NAME}/swig)
 set (OTMORRIS_DATA_PATH ${CMAKE_INSTALL_DATAROOTDIR})
 set (OTMORRIS_CONFIG_CMAKE_PATH ${CMAKE_INSTALL_LIBDIR}/cmake/otmorris)
-set (OTMORRIS_DOC_PATH ${CMAKE_INSTALL_DATAROOTDIR}/${PACKAGE_NAME}/doc)
+set (OTMORRIS_DOC_PATH ${CMAKE_INSTALL_DOCDIR})
 
 set (CMAKE_CXX_STANDARD 11)
 

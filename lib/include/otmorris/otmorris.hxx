@@ -2,7 +2,7 @@
 /**
  *  @brief The external header file of otmorris
  *
- *  Copyright 2010-2023 Airbus-EDF-Phimeca
+ *  Copyright 2010-2024 Airbus-EDF-Phimeca
  *
  *  This library is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Lesser General Public License as published by

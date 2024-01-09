@@ -3,7 +3,7 @@
  *  @brief MorrisExperimentGrid defines experiments for the Morris method
  * starting from p-level grids
  *
- *  Copyright 2005-2018 Airbus-EDF-IMACS-Phimeca
+ *  Copyright 2005-2024 Airbus-EDF-IMACS-Phimeca
  *
  *  This library is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU Lesser General Public

@@ -8,6 +8,7 @@ OTMORRIS is a module for OpenTURNS
 
 More information can found at http://www.openturns.org
 
+The documentation is available at `this link <http://openturns.github.io/otmorris/master/>`_.
 
 Installation
 ============

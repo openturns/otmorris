@@ -55,15 +55,15 @@ MorrisExperiment::MorrisExperiment(const Point & delta, const UnsignedInteger N)
 }
 
 /** Constructor using a p-level grid and intervals*/
-MorrisExperiment::MorrisExperiment(const Point & delta, const Interval & interval, const UnsignedInteger N)
+MorrisExperiment::MorrisExperiment(const Point & delta, const UnsignedInteger N, const Interval & bounds)
   : WeightedExperimentImplementation(N * (delta.getSize() + 1))
-  , interval_(interval)
+  , interval_(bounds)
   , delta_ (delta)
   , N_(N)
 {
-  if (delta.getSize() != interval.getDimension())
-    throw InvalidArgumentException(HERE) << "Levels and interval should be of same size. Here, level's size=" << delta.getSize()
-                                         << ", interval's size=" << interval.getDimension();
+  if (delta.getSize() != bounds.getDimension())
+    throw InvalidArgumentException(HERE) << "Levels and bounds should be of same size. Here, level's size=" << delta.getSize()
+                                         << ", bounds's size=" << bounds.getDimension();
 }
 
 /* Virtual constructor method */

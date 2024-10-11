@@ -49,7 +49,7 @@ public:
   MorrisExperiment();
 
   /** Standard constructors */
-  MorrisExperiment(const OT::Point & delta, const OT::Interval & interval, const OT::UnsignedInteger N);
+  MorrisExperiment(const OT::Point & delta, const OT::UnsignedInteger N, const OT::Interval & bounds);
 
   MorrisExperiment(const OT::Point & delta, const OT::UnsignedInteger N);
 

@@ -44,7 +44,7 @@ public:
   MorrisExperimentGrid(const OT::Indices & levels, const OT::UnsignedInteger N);
 
   /** Constructor using a p-level grid and intervals*/
-  MorrisExperimentGrid(const OT::Indices & levels, const OT::Interval & interval, const OT::UnsignedInteger N);
+  MorrisExperimentGrid(const OT::Indices & levels, const OT::UnsignedInteger N, const OT::Interval & bounds);
 
   /** Virtual constructor method */
   MorrisExperimentGrid * clone() const override;

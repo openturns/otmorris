@@ -39,7 +39,7 @@ static const Factory<MorrisExperimentGrid> Factory_MorrisExperimentGrid;
 
 /** Constructor using a p-level grid  - Uniform(0,1)^d */
 MorrisExperimentGrid::MorrisExperimentGrid(const Indices & levels, const UnsignedInteger N)
-  : MorrisExperiment(Point(levels.getSize()), Interval(levels.getSize()), N)
+  : MorrisExperiment(Point(levels.getSize()), N, Interval(levels.getSize()))
   , jumpStep_(levels.getSize(), 0)
 {
   // Compute step
@@ -54,13 +54,10 @@ MorrisExperimentGrid::MorrisExperimentGrid(const Indices & levels, const Unsigne
 }
 
 /** Constructor using a p-level grid and intervals*/
-MorrisExperimentGrid::MorrisExperimentGrid(const Indices & levels, const Interval & interval, const UnsignedInteger N)
-  : MorrisExperiment(Point(levels.getSize()), interval, N)
+MorrisExperimentGrid::MorrisExperimentGrid(const Indices & levels, const UnsignedInteger N, const Interval & bounds)
+  : MorrisExperiment(Point(levels.getSize()), N, bounds)
   , jumpStep_(levels.getSize(), 0)
 {
-  if (levels.getSize() != interval.getDimension())
-    throw InvalidArgumentException(HERE) << "Levels and interval should be of same size. Here, level's size=" << levels.getSize()
-                                         << ", interval's size=" << interval.getDimension();
   // Set levels/delta
   for (UnsignedInteger k = 0; k < levels.getSize(); ++k)
   {

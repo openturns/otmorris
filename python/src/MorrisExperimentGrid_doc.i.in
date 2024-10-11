@@ -1,25 +1,14 @@
 %feature("docstring") OTMORRIS::MorrisExperimentGrid
 "MorrisExperimentGrid builds experiments for the Morris method starting from full p-levels grid experiments.
 
-Available constructors:
-
-    MorrisExperimentGrid(levels, N)
-
-    MorrisExperimentGrid(levels, interval, N)
-
 Parameters
 ----------
 levels : :py:class:`openturns.Indices`
     Number of levels for a regular grid
 N : int
     Number of trajectories
-interval : :py:class:`openturns.Interval`
-    Bounds of the domain
-
-Notes
------
-With first constructor, we consider that initial experiment is a regular grid defined in :math:`[0,1]^d`.
-With second constructor, we consider that initial distribution model is uniform with bounds given by the interval argument. Also, the initial experiment is of type regular.
+bounds : :py:class:`openturns.Interval`, optional
+    Bounds of the domain, by default it is defined on :math:`[0,1]^d`.
 
 Examples
 --------

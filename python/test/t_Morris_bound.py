@@ -24,11 +24,11 @@ jump_step = int(level_number / 2)
 levels = [level_number] * dim
 
 # set the bounds of the grid experiment
-bound = ot.Interval(
+bounds = ot.Interval(
     [marginal.computeQuantile(0.01)[0] for marginal in list_marginals],
     [marginal.computeQuantile(0.99)[0] for marginal in list_marginals],
 )
-experiment = otmorris.MorrisExperimentGrid(levels, bound, trajectories)
+experiment = otmorris.MorrisExperimentGrid(levels, trajectories, bounds)
 experiment.setJumpStep(ot.Indices([jump_step] * dim))
 
 # create and compute the design of experiments
@@ -38,7 +38,7 @@ print(input_sample)
 output_sample = poutre(input_sample)
 
 # run the Morris analysis
-morris = otmorris.Morris(input_sample, output_sample, bound)
+morris = otmorris.Morris(input_sample, output_sample, bounds)
 print("E(|EE|)  = ", morris.getMeanAbsoluteElementaryEffects())
 print("E(EE)  = ", morris.getMeanElementaryEffects())
 print("V(|EE|)^{1/2} = ", morris.getStandardDeviationElementaryEffects())

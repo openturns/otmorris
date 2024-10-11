@@ -16,4 +16,4 @@ import openturns as _ot
 
 from .otmorris import *
 
-__version__ = '0.16'
+__version__ = '0.17'

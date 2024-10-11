@@ -36,9 +36,9 @@ We plot hereafter results obtained with the module (left) and those issued from 
 
 We note that the results seem very close. Indeed, we may note that from a important number of trajectories, we get the same group structure:
 
- - The variables with linear effects (:math:`X_8,\ X_9\ and\ X_{10}`),
- - The variables that have significant and non linear (or with interactions) effects (:math:`X_1\ to\ X_7`),
- - The group with variables that have negligible seems to be the same with the two tools (the other variables from :math:`X_{11}\ to\ X_{20}`).
+ - The variables with linear effects (:math:`X_8, X_9` and  :math:`X_{10}`),
+ - The variables that have significant and non linear (or with interactions) effects (:math:`X_1` to :math:`X_7`),
+ - The group with variables that have negligible seems to be the same with the two tools (the other variables from :math:`X_{11}` to math:`X_{20}`).
 
 The results are satisfying.
 

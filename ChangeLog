@@ -1,3 +1,7 @@
+= 0.17 release (wip)
+
+ * Make bounds argument last to disambiguate constructors
+
 = 0.16 release (2024-05-02)
 
  * Maintenance

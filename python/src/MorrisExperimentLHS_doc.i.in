@@ -1,25 +1,17 @@
 %feature("docstring") OTMORRIS::MorrisExperimentLHS
 "MorrisExperimentLHS builds experiments for the Morris method using a centered LHS design as input starting.
 
-Available constructors:
-
-    MorrisExperimentLHS(lhsDesign, N)
-
-    MorrisExperimentLHS(lhsDesign, interval, N)
-
 Parameters
 ----------
 lhsDesign : :py:class:`openturns.Sample`
     Initial design
-interval : :py:class:`openturns.Interval`
-    Bounds of the domain
 N : int
     Number of trajectories
+bounds : :py:class:`openturns.Interval`, optional
+    Bounds of the domain, by default it is defined on :math:`[0,1]^d`.
 
 Notes
 -----
-With the first constructor, we fix the initial design which could be an LHS, an optimal LHS defined using uniform marginals.
-With the second constructor LHS design and bounds are required.
 The lhs sample must be centered, ie from :py:class:`openturns.LHSExperiment` with randomShift=False.
 
 The method consists in generating trajectories (paths) by randomly selecting their initial points from the lhs design.

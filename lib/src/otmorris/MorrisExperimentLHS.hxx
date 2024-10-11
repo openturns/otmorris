@@ -44,7 +44,7 @@ public:
   MorrisExperimentLHS(const OT::Sample & lhsDesign, const OT::UnsignedInteger N);
 
   /** Constructor using Sample, which is supposed to be an LHS design */
-  MorrisExperimentLHS(const OT::Sample & lhsDesign, const OT::Interval & interval, const OT::UnsignedInteger N);
+  MorrisExperimentLHS(const OT::Sample & lhsDesign, const OT::UnsignedInteger N, const OT::Interval & bounds);
 
   /** Virtual constructor method */
   MorrisExperimentLHS * clone() const override;

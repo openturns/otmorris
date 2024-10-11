@@ -38,22 +38,18 @@ static const Factory<MorrisExperimentLHS> Factory_MorrisExperimentLHS;
 
 /** Constructor using Sample, which is supposed to be an LHS design - Uniform(0,1)^d*/
 MorrisExperimentLHS::MorrisExperimentLHS(const Sample & lhsDesign, const UnsignedInteger N)
-  : MorrisExperiment(Point(lhsDesign.getDimension(), 1.0 / lhsDesign.getSize()), Interval(lhsDesign.getDimension()), N)
+  : MorrisExperiment(Point(lhsDesign.getDimension(), 1.0 / lhsDesign.getSize()), N, Interval(lhsDesign.getDimension()))
   , experiment_(lhsDesign)
 {
   // Nothing to do
 }
 
 /** Constructor using Sample, which is supposed to be an LHS design */
-MorrisExperimentLHS::MorrisExperimentLHS(const Sample & lhsDesign, const Interval & interval, const UnsignedInteger N)
-  : MorrisExperiment((interval.getUpperBound() - interval.getLowerBound()) / lhsDesign.getSize(), interval, N)
+MorrisExperimentLHS::MorrisExperimentLHS(const Sample & lhsDesign, const UnsignedInteger N, const Interval & bounds)
+  : MorrisExperiment((bounds.getUpperBound() - bounds.getLowerBound()) / lhsDesign.getSize(), N, bounds)
   , experiment_(lhsDesign)
 
 {
-  ;
-  if (experiment_.getDimension() != interval_.getDimension())
-    throw InvalidArgumentException(HERE) << "Levels and design should have same dimension. Here, design's dimension=" << lhsDesign.getDimension()
-                                         << ", interval's size=" << interval_.getDimension();
 }
 
 /* Virtual constructor method */

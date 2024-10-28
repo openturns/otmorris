@@ -11,24 +11,29 @@ The method focuses on the notion of elementary effects and is known to require v
 of the influent factors.
 
 Roughly speeking, the method relies on One At Time designs (OAT) and acts as follows:
-  - The input design space is discretized (in a p-levels grid), of step :math:`\Delta`;
-  - We randomly choose a starting `point` in this grid;
-  - We randomly select a direction and thus we get the new point,
-  - We iterate the previous process on the :math:`p-1` remaining directions to get a full `path`, where :math:`p` is the input dimension.
-    Note that :math:`p+1` experiments are needed to define this `path`. (See hereafter an example in case :math:`p=2`)
 
-  .. image:: scheme-path-morris.png
+- The input design space is discretized (in a p-levels grid), of step :math:`\Delta`;
+- We randomly choose a starting `point` in this grid;
+- We randomly select a direction and thus we get the new point,
+- We iterate the previous process on the :math:`p-1` remaining directions to get a full `path`, where :math:`p` is the input dimension.
+  Note that :math:`p+1` experiments are needed to define this `path`. (See hereafter an example in case :math:`p=2`)
+
+.. image:: scheme-path-morris.png
    :height: 350 px
    :width: 600 px
    :align: center
 
-  - From this path (:math:`X_p`), we compute the response answer :math:`Y_p=f(X_p)`;
-  - It is easy to see that the difference between two consecutive points of this `path` represents the elementary effect relative to the choosen direction. Indeed
-    we compute both :math:`dX_p` and :math:`dY_p` where :math:`dX_p` represents the difference between two consecutive elements of :math:`X_p`. We deduce elementary
-    effects from these vectors of size :math:`p` by solving the linear system :math:`X_p\ ee = Y_p` (:math:`ee` are the elementary effects)
-  - We iterate the steps 2-5 :math:`r` times in order to get `r` replicates of the elementary effects. Here after an illustration  in case :math:`p=2, r=5`.
+- From this path (:math:`X_p`), we compute the response answer :math:`Y_p=f(X_p)`;
+- It is easy to see that the difference between two consecutive points of this `path` represents the elementary effect
+  relative to the choosen direction.
+  Indeed we compute both :math:`dX_p` and :math:`dY_p` where :math:`dX_p` represents the difference between
+  two consecutive elements of :math:`X_p`.
+  We deduce elementary effects from these vectors of size :math:`p` by solving the linear system
+  :math:`X_p\ ee = Y_p` (:math:`ee` are the elementary effects)
+- We iterate the steps 2-5 :math:`r` times in order to get `r` replicates of the elementary effects.
+  Here after an illustration  in case :math:`p=2, r=5`.
 
-  .. image:: scheme-path-examples.png
+.. image:: scheme-path-examples.png
    :height: 350 px
    :width: 400 px
    :align: center

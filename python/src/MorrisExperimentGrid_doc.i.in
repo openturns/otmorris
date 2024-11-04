@@ -31,7 +31,7 @@ elementary effects. If not given, it is set to 1 for each factor.
 
 Returns
 -------
-humpStep : :py:class:`openturns.Indices`
+jumpStep : :py:class:`openturns.Indices`
     Number of levels for each factot that are increased/decreased for computating the EE.
 "
 
@@ -44,7 +44,7 @@ elementary effects. If not given, it is set to 1 for each factor.
 
 Parameters
 ----------
-humpStep : :py:class:`openturns.Indices`
+jumpStep : :py:class:`openturns.Indices`
     Number of levels for each factot that are increased/decreased for computating the EE.
 
 Notes

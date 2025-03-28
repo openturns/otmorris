@@ -1,5 +1,5 @@
 %feature("docstring") OTMORRIS::Morris
-"Morris method.
+R"RAW(Morris method.
 
 Available constructors:
 
@@ -75,7 +75,7 @@ Examples
 >>> mean_effects = morris.getMeanElementaryEffects()
 >>> mean_abs_effects = morris.getMeanAbsoluteElementaryEffects()
 >>> sigma_effects = morris.getStandardDeviationElementaryEffects()
-"
+)RAW"
 
 // ---------------------------------------------------------------------
 

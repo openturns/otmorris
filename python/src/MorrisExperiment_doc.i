@@ -19,10 +19,10 @@ bounds : :py:class:`openturns.Interval`
 // ---------------------------------------------------------------------
 
 %feature("docstring") OTMORRIS::MorrisExperiment::generate
-"Generate points according to the type of the experiment.
+R"RAW(Generate points according to the type of the experiment.
 
 Returns
 -------
 sample : :py:class:`openturns.Sample`
     Points that constitute the design of experiment, of size :math:`N \times (p+1)`
-"
+)RAW"

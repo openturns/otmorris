@@ -14,7 +14,7 @@ FFLAGS="${FFLAGS:-%optflags}" ; export FFLAGS ; \
 %__cmake -DCMAKE_INSTALL_PREFIX:PATH=%{_prefix}
 
 Name:           otmorris
-Version:        0.17
+Version:        0.18
 Release:        0%{?dist}
 Summary:        OpenTURNS module
 Group:          System Environment/Libraries

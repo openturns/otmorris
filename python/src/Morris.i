@@ -40,9 +40,7 @@ class MorrisFunction(ot.OpenTURNSPythonFunction):
     >>> output_sample = f(input_sample)
     """
 
-    def __init__(
-        self, alpha=ot.Point(10), beta=ot.Point(175), b0=0.0
-    ):
+    def __init__(self, alpha=ot.Point(10), beta=ot.Point(175), b0=0.0):
         """
         Create the Morris function.
         Parameters
@@ -59,16 +57,12 @@ class MorrisFunction(ot.OpenTURNSPythonFunction):
 
         # Initialize alpha (default to zeros)
         alpha = np.array(alpha)
-        assert (
-            len(alpha) == 10
-        ), f"alpha must have length 10, got {len(alpha)}"
+        assert len(alpha) == 10, f"alpha must have length 10, got {len(alpha)}"
         self.b1 = np.concatenate([np.full(10, 20.0), alpha])
 
         # Initialize beta (default to zeros)
         beta = np.array(beta)
-        assert (
-            len(beta) == 175
-        ), f"beta must have length 175, got {len(beta)}."
+        assert len(beta) == 175, f"beta must have length 175, got {len(beta)}."
 
         # Precompute b2 matrix (20x20) using numpy for speed
         self.b2 = np.zeros((20, 20))

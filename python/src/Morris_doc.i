@@ -55,7 +55,9 @@ defined as follows:
 
 .. math::
 
-    d_{i}(\boldsymbol{x}^{k}) = \frac{g({x}_{i}^{k} + \delta) - g(x_{i}^{k}}{\delta}.
+    d_{i}(\vect{x}^k)
+    = \frac{\model(x_1^k, \ldots, x_{i - 1}^k, x_i^k + \delta, \ldots, x_{\inputDim}^k)
+        - \model(x_1^k, \ldots, x_{i - 1}^k, x_i^k, \ldots, x_{\inputDim}^k)}{\delta}
 
 With :math:`N` trajectories, we get the mean and standard deviation of these effects
 (we consider the mean of absolute mean effects in our case).

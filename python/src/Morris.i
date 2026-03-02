@@ -13,6 +13,7 @@
 %pythoncode %{
 
 import openturns as ot
+import numpy as np
 
 class MorrisFunction(ot.OpenTURNSPythonFunction):
     """

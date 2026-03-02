@@ -22,11 +22,11 @@ model : :py:class:`openturns.Function`
 
 Notes
 -----
-We note :math:`\cM:\Rset^p \mapsto \Rset^q` with :math:`\cM(\vect{x})= \vect{y}`.
+We note :math:`\model:\Rset^\inputDim \mapsto \Rset^\outputDim` the physical model with :math:`\model(\vect{x}) = \vect{y}`.
 
-The Morris method is a screening method, which is known to be very efficient in case of huge number of input parameters (p >> 1).
-It is a qualitative sensitivity analysis method which is based on design of experiments and allows to identify the few important factors at a cost of r * (p + 1) simulations.
-The experiments are of type OAT (One At Time); i.e. only one parameter vary at a time.
+The Morris method is a screening method, which is known to be very efficient in case of large number of input parameters (:math:`\inputDim \gg 1`).
+It is a qualitative sensitivity analysis method which is based on design of experiments and allows to identify the few important factors at a cost of :math:`r * (\inputDim + 1)` simulations.
+The experiments are of type OAT (One At Time); i.e. only one parameter varies at a time.
 
 The method helps to split input parameters into three groups:
 
@@ -35,18 +35,20 @@ The method helps to split input parameters into three groups:
  - Those with significant and non linear (or with interactions) effects on the
    output.
 
- The method rely on input designs defined in the hypersphere unit. To sum up the key points of the method, we consider a point named :math:`\vect{x^*}` in this hypersphere and a parameter :math:`\delta` (parameter of discretization if we consider a regular experiment for example). Starting from the point, we choose randomly one direction by increasing\slash decreasing one component one component of the point :math:`\vect{x^*}` with :math:`\delta`. Conditionnaly to this direction, we choose then the p-1 directions by randomly selecting one direction at time. We get then a trajectory (path).
+The method relies on input designs defined in the hypersphere unit. To sum up the key points of the method, we consider a point named :math:`\vect{x^*}` in this hypersphere and a parameter :math:`\delta` (parameter of discretization if we consider a regular experiment for example). Starting from the point, we choose randomly one direction by increasing or decreasing one component of the point :math:`\vect{x^*}` with :math:`\delta`. Conditionally to this direction, we choose then the :math:`\inputDim - 1` directions by randomly selecting one direction at a time. We then get a trajectory (path).
 
-The Morris method rely on the evaluation of elementary effects which are defined as follow:
+The Morris method is based on the evaluation of elementary effects which are defined as follows:
 
 .. math::
 
-    d_{i}(\vect{x}^k) = \frac{\cM(x_1^k,\hdots, x_{i-1}^k, x_i^k + \delta,\hdots, x_p^k) - \cM(x_1^k,\hdots, x_{i-1}^k, x_i^k,\hdots, x_p^k)}{\delta}
+    d_{i}(\vect{x}^k) 
+    = \frac{\model(x_1^k, \ldots, x_{i - 1}^k, x_i^k + \delta, \ldots, x_{\inputDim}^k) 
+        - \model(x_1^k, \ldots, x_{i - 1}^k, x_i^k, \ldots, x_{\inputDim}^k)}{\delta}.
 
-With :math:`N` trajectories, we get the mean and standard deviation of these effects (we consider the mean of absolute mean effects in our case). The mean explains the sensitivity wheras the standard deviation explains the interactions and non linear effects.
+With N trajectories, we get the mean and standard deviation of these effects (we consider the mean of absolute mean effects in our case). The mean explains the sensitivity whereas the standard deviation explains the interactions and non linear effects.
 
 With the first constructor, we consider that input experiment has been generated thanks to the :class:`~otmorris.MorrisExperiment` and output is evaluated outside the platform.
-With second constructor, the output is evaluated inside the platform.
+With the second constructor, the output is evaluated inside the platform.
 
 Examples
 --------
@@ -54,14 +56,13 @@ Examples
 >>> import otmorris
 >>> # Define model
 >>> ot.RandomGenerator.SetSeed(1)
->>> alpha = ot.DistFunc.rNormal(10)
->>> beta = ot.DistFunc.rNormal(84)
->>> gamma = ot.DistFunc.rNormal(280)
->>> b0 = ot.DistFunc.rNormal()
->>> model = otmorris.MorrisFunction(alpha, beta, gamma, b0)
+>>> b0_random = ot.DistFunc.rNormal()
+>>> b1_random = ot.DistFunc.rNormal(10)
+>>> b2_random = ot.DistFunc.rNormal(175)
+>>> model = otmorris.MorrisFunction(b0_random, b1_random, b2_random)
 >>> # Number of trajectories
 >>> r = 5
->>> # Define a k-grid level (so delta = 1/(k-1))
+>>> # Define a k-grid level (so delta = 1 / (k - 1))
 >>> k = 5
 >>> morris_experiment = otmorris.MorrisExperimentGrid([k] * 20, r)
 >>> X = morris_experiment.generate()
@@ -84,13 +85,13 @@ Examples
 
 Parameters
 ----------
-marginal : int
-    Output marginal of interest
+marginal : int, optional
+    Output marginal of interest. Default is 0.
 
 Returns
 -------
-mean: :py:class:`openturns.Point`
-    The mean effects.
+mean : :py:class:`openturns.Point`
+    The mean of elementary effects.
 "
 
 // ---------------------------------------------------------------------
@@ -100,29 +101,29 @@ mean: :py:class:`openturns.Point`
 
 Parameters
 ----------
-marginal : int
-    Output marginal of interest
+marginal : int, optional
+    Output marginal of interest. Default is 0.
 
 Returns
 -------
-mean: :py:class:`openturns.Point`
-    The mean effects.
+meanOfAbsolute : :py:class:`openturns.Point`
+    The mean of absolute elementary effects.
 "
 
 // ---------------------------------------------------------------------
 
 %feature("docstring") OTMORRIS::Morris::getStandardDeviationElementaryEffects
-"Get the standard deviation of elementary effects.
+"Get the standard deviation of the elementary effects.
 
 Parameters
 ----------
-marginal : int
-    Output marginal of interest
+marginal : int, optional
+    Output marginal of interest. Default is 0.
 
 Returns
 -------
-mean: :py:class:`openturns.Point`
-    The standard effects
+standardDeviation : :py:class:`openturns.Point`
+    The standard deviation of the elementary effects.
 "
 
 // ---------------------------------------------------------------------
@@ -133,7 +134,7 @@ mean: :py:class:`openturns.Point`
 Returns
 -------
 inputSample : :py:class:`openturns.Sample`
-    The input sample
+    The input sample.
 "
 
 // ---------------------------------------------------------------------
@@ -143,8 +144,8 @@ inputSample : :py:class:`openturns.Sample`
 
 Returns
 -------
-inputSample : :py:class:`openturns.Sample`
-    The output sample
+outputSample : :py:class:`openturns.Sample`
+    The output sample.
 "
 
 // ---------------------------------------------------------------------
@@ -156,13 +157,13 @@ Plots mean vs standard deviation of elementary effects.
 
 Parameters
 ----------
-marginal : int
-    Output marginal of interest
-absoluteMean : bool, default=True
-    Whether to use absolute mean
+marginal : int, optional
+    Output marginal of interest. Default is 0.
+absoluteMean : bool, optional
+    Whether to use absolute mean. Default is True.
 
 Returns
 -------
-mean: :py:class:`openturns.Graph`
-    The elementary effects graph
+graph : :py:class:`openturns.Graph`
+    The elementary effects graph.
 "

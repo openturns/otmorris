@@ -17,7 +17,9 @@ import numpy as np
 
 class MorrisFunction(ot.OpenTURNSPythonFunction):
     """
-    Morris test function for sensitivity analysis (optimized version).
+    Morris test function for sensitivity analysis.
+
+    This function has input dimension 20 and output dimension 1.
 
     References
     ----------
@@ -32,38 +34,40 @@ class MorrisFunction(ot.OpenTURNSPythonFunction):
     --------
     >>> import openturns as ot
     >>> ot.RandomGenerator.SetSeed(123)
-    >>> b0 = ot.DistFunc.rNormal()
-    >>> alpha = ot.DistFunc.rNormal(10)
-    >>> beta = ot.DistFunc.rNormal(175)
-    >>> f = ot.Function(MorrisFunction(alpha, beta, b0))
-    >>> input_sample = ot.ComposedDistribution([ot.Uniform(0, 1)] * 20).getSample(20)
-    >>> output_sample = f(input_sample)
+    >>> b0_random = ot.DistFunc.rNormal()
+    >>> b1_random = ot.DistFunc.rNormal(10)
+    >>> b2_random = ot.DistFunc.rNormal(175)
+    >>> morrisFunction = ot.Function(MorrisFunction(b0_random, b1_random, b2_random))
+    >>> dimension = morrisFunction.getDimension()
+    >>> distribution = ot.ComposedDistribution([ot.Uniform(0.0, 1.0)] * dimension)
+    >>> input_sample = distribution.getSample(10)
+    >>> output_sample = morrisFunction(input_sample)
     """
 
-    def __init__(self, alpha=ot.Point(10), beta=ot.Point(175), b0=0.0):
+    def __init__(self, b0_random=0.0, b1_random=ot.Point(10), b2_random=ot.Point(175)):
         """
         Create the Morris function.
 
         Parameters
         ----------
-        alpha : ot.Point(10), optional
-            Random linear coefficients for dimensions 11-20. Default is zeros.
-        beta : ot.Point(175), optional
-            Random quadratic coefficients. Default is zeros.
-        b0 : float, optional
+        b0_random : float, optional
             The constant term. Default is 0.0.
+        b1_random : ot.Point(10), optional
+            Random linear coefficients for dimensions 11-20. Default is zeros.
+        b2_random : ot.Point(175), optional
+            Random quadratic coefficients. Default is zeros.
         """
         super().__init__(20, 1)
-        self.b0 = float(b0)
+        self.b0_random = float(b0_random)
 
-        # Initialize alpha (default to zeros)
-        alpha = np.array(alpha)
-        assert len(alpha) == 10, f"alpha must have length 10, got {len(alpha)}"
-        self.b1 = np.concatenate([np.full(10, 20.0), alpha])
+        # Initialize b1_random (default to zeros)
+        b1_random = np.array(b1_random)
+        assert len(b1_random) == 10, f"b1_random must have length 10, got {len(b1_random)}"
+        self.b1 = np.concatenate([np.full(10, 20.0), b1_random])
 
-        # Initialize beta (default to zeros)
-        beta = np.array(beta)
-        assert len(beta) == 175, f"beta must have length 175, got {len(beta)}."
+        # Initialize b2_random (default to zeros)
+        b2_random = np.array(b2_random)
+        assert len(b2_random) == 175, f"b2_random must have length 175, got {len(b2_random)}."
 
         # Precompute b2 matrix (20x20) using numpy for speed
         self.b2 = np.zeros((20, 20))
@@ -77,7 +81,7 @@ class MorrisFunction(ot.OpenTURNSPythonFunction):
                     self.b2[i, j] = -15.0
                 else:
                     # The other 175 coefficients are random
-                    self.b2[i, j] = beta[random_index]
+                    self.b2[i, j] = b2_random[random_index]
                     random_index += 1
 
         # Precompute quadratic indices
@@ -127,7 +131,7 @@ class MorrisFunction(ot.OpenTURNSPythonFunction):
             w[k] = 2.0 * (1.1 * X[k] / (X[k] + 0.1) - 0.5)
 
         # Start with constant term
-        y = self.b0
+        y = self.b0_random
 
         # Add linear terms (vectorized dot product)
         y += np.dot(w, self.b1)

@@ -23,4 +23,3 @@ output_sample = g(input_sample)
 t1 = time.time()
 elapsed_time = t1 - t0
 print(f"{N / elapsed_time} eval/s")
-

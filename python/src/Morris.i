@@ -43,6 +43,7 @@ class MorrisFunction(ot.OpenTURNSPythonFunction):
     def __init__(self, alpha=ot.Point(10), beta=ot.Point(175), b0=0.0):
         """
         Create the Morris function.
+
         Parameters
         ----------
         alpha : ot.Point(10), optional
@@ -52,7 +53,7 @@ class MorrisFunction(ot.OpenTURNSPythonFunction):
         b0 : float, optional
             The constant term. Default is 0.0.
         """
-        ot.OpenTURNSPythonFunction.__init__(self, 20, 1)
+        super().__init__(20, 1)
         self.b0 = float(b0)
 
         # Initialize alpha (default to zeros)

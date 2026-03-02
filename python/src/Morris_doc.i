@@ -29,7 +29,7 @@ The Morris method is a screening method, which is known to be very efficient in
 case of large number of input parameters (:math:`\inputDim \gg 1`).
 It is a qualitative sensitivity analysis method which is based on design of
 experiments and allows to identify the few important factors at a cost of
-:math:`r * (\inputDim + 1)` simulations.
+:math:`r \times (\inputDim + 1)` simulations.
 The experiments are of type OAT (One At Time); i.e. only one parameter varies
 at a time.
 
@@ -42,10 +42,10 @@ The method helps to split input parameters into three groups:
 
 The method relies on input designs defined in the hypersphere unit.
 To sum up the key points of the method, we consider a point named
-:math:`\vect{x^*}` in this hypersphere and a parameter :math:`\delta`
+:math:`\vect{x}^*` in this hypersphere and a parameter :math:`\delta`
 (parameter of discretization if we consider a regular experiment for example).
 Starting from the point, we choose randomly one direction by increasing or
-decreasing one component of the point :math:`\vect{x^*}` with :math:`\delta`.
+decreasing one component of the point :math:`\vect{x}^*` with :math:`\delta`.
 Conditionally to this direction, we choose then the :math:`\inputDim - 1`
 directions by randomly selecting one direction at a time.
 We then get a trajectory (path).

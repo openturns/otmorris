@@ -2,6 +2,7 @@
 
 set -xe
 
+pip install numpy
 cd /tmp
 mkdir build && cd build
 

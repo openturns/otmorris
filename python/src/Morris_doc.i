@@ -22,7 +22,7 @@ model : :py:class:`openturns.Function`
 
 Notes
 -----
-We note :math:`\model:\Rset^\inputDim \mapsto \Rset^\outputDim` the physical
+We note :math:`\model:\Rset^{\inputDim} \mapsto \Rset^{\outputDim}` the physical
 model with :math:`\model(\vect{x}) = \vect{y}`.
 
 The Morris method is a screening method, which is known to be very efficient in

@@ -2,7 +2,7 @@
 
 set -xe
 
-pip install numpy
+pip3 install numpy
 cd /tmp
 mkdir build && cd build
 

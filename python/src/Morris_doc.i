@@ -57,7 +57,7 @@ defined as follows:
 
     d_{i}(\boldsymbol{x}^{k}) = \frac{g({x}_{i}^{k} + \delta) - g(x_{i}^{k}}{\delta}.
 
-With N trajectories, we get the mean and standard deviation of these effects
+With :math:`N` trajectories, we get the mean and standard deviation of these effects
 (we consider the mean of absolute mean effects in our case).
 The mean explains the sensitivity whereas the standard deviation explains the
 interactions and non linear effects.

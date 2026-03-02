@@ -15,7 +15,7 @@ Roughly speeking, the method relies on One At Time designs (OAT) and acts as fol
 - The input design space is discretized (in a p-levels grid), of step :math:`\Delta`;
 - We randomly choose a starting `point` in this grid;
 - We randomly select a direction and thus we get the new point,
-- We iterate the previous process on the p-1 remaining directions to get a full `path`, where :math:`p` is the input dimension.
+- We iterate the previous process on the :math:`p-1` remaining directions to get a full `path`, where :math:`p` is the input dimension.
   Note that :math:`p+1` experiments are needed to define this `path`. (See hereafter an example in case :math:`p=2`)
 
 .. image:: scheme-path-morris.png

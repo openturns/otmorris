@@ -4,6 +4,7 @@ import openturns as ot
 import openturns.testing as ott
 import otmorris
 import time
+import numpy as np
 
 g = ot.Function(otmorris.MorrisFunction())
 dim = g.getInputDimension()
@@ -20,6 +21,6 @@ input_sample = X.getSample(N)
 t0 = time.time()
 output_sample = g(input_sample)
 t1 = time.time()
-elapsed_time = t1 - t2
+elapsed_time = t1 - t0
 print(f"{N / elapsed_time} eval/s")
 

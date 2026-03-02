@@ -23,10 +23,6 @@ class MorrisFunction(ot.OpenTURNSPythonFunction):
 
     References
     ----------
-    - The Morris function has bugs.
-      https://github.com/openturns/otmorris/issues/59
-    - Benchmark implementations of the Morris function.
-      https://gist.github.com/mbaudin47/b7c1502c41ec97d55ab2eb6ee80d6698
     - M. D. Morris, 1991, Factorial sampling plans for preliminary
       computational experiments, Technometrics, 33, 161-174.
 

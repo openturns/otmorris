@@ -22,11 +22,16 @@ model : :py:class:`openturns.Function`
 
 Notes
 -----
-We note :math:`\model:\Rset^\inputDim \mapsto \Rset^\outputDim` the physical model with :math:`\model(\vect{x}) = \vect{y}`.
+We note :math:`\model:\Rset^\inputDim \mapsto \Rset^\outputDim` the physical
+model with :math:`\model(\vect{x}) = \vect{y}`.
 
-The Morris method is a screening method, which is known to be very efficient in case of large number of input parameters (:math:`\inputDim \gg 1`).
-It is a qualitative sensitivity analysis method which is based on design of experiments and allows to identify the few important factors at a cost of :math:`r * (\inputDim + 1)` simulations.
-The experiments are of type OAT (One At Time); i.e. only one parameter varies at a time.
+The Morris method is a screening method, which is known to be very efficient in
+case of large number of input parameters (:math:`\inputDim \gg 1`).
+It is a qualitative sensitivity analysis method which is based on design of
+experiments and allows to identify the few important factors at a cost of
+:math:`r * (\inputDim + 1)` simulations.
+The experiments are of type OAT (One At Time); i.e. only one parameter varies
+at a time.
 
 The method helps to split input parameters into three groups:
 
@@ -35,9 +40,18 @@ The method helps to split input parameters into three groups:
  - Those with significant and non linear (or with interactions) effects on the
    output.
 
-The method relies on input designs defined in the hypersphere unit. To sum up the key points of the method, we consider a point named :math:`\vect{x^*}` in this hypersphere and a parameter :math:`\delta` (parameter of discretization if we consider a regular experiment for example). Starting from the point, we choose randomly one direction by increasing or decreasing one component of the point :math:`\vect{x^*}` with :math:`\delta`. Conditionally to this direction, we choose then the :math:`\inputDim - 1` directions by randomly selecting one direction at a time. We then get a trajectory (path).
+The method relies on input designs defined in the hypersphere unit.
+To sum up the key points of the method, we consider a point named
+:math:`\vect{x^*}` in this hypersphere and a parameter :math:`\delta`
+(parameter of discretization if we consider a regular experiment for example).
+Starting from the point, we choose randomly one direction by increasing or
+decreasing one component of the point :math:`\vect{x^*}` with :math:`\delta`.
+Conditionally to this direction, we choose then the :math:`\inputDim - 1`
+directions by randomly selecting one direction at a time.
+We then get a trajectory (path).
 
-The Morris method is based on the evaluation of elementary effects which are defined as follows:
+The Morris method is based on the evaluation of elementary effects which are
+defined as follows:
 
 .. math::
 
@@ -45,9 +59,14 @@ The Morris method is based on the evaluation of elementary effects which are def
     = \frac{\model(x_1^k, \ldots, x_{i - 1}^k, x_i^k + \delta, \ldots, x_{\inputDim}^k) 
         - \model(x_1^k, \ldots, x_{i - 1}^k, x_i^k, \ldots, x_{\inputDim}^k)}{\delta}.
 
-With N trajectories, we get the mean and standard deviation of these effects (we consider the mean of absolute mean effects in our case). The mean explains the sensitivity whereas the standard deviation explains the interactions and non linear effects.
+With N trajectories, we get the mean and standard deviation of these effects
+(we consider the mean of absolute mean effects in our case).
+The mean explains the sensitivity whereas the standard deviation explains the
+interactions and non linear effects.
 
-With the first constructor, we consider that input experiment has been generated thanks to the :class:`~otmorris.MorrisExperiment` and output is evaluated outside the platform.
+With the first constructor, we consider that input experiment has been generated
+thanks to the :class:`~otmorris.MorrisExperiment` and output is evaluated
+outside the platform.
 With the second constructor, the output is evaluated inside the platform.
 
 Examples

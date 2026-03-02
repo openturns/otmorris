@@ -38,7 +38,7 @@ class MorrisFunction(ot.OpenTURNSPythonFunction):
     >>> b1_random = ot.DistFunc.rNormal(10)
     >>> b2_random = ot.DistFunc.rNormal(175)
     >>> morrisFunction = ot.Function(MorrisFunction(b0_random, b1_random, b2_random))
-    >>> dimension = morrisFunction.getDimension()
+    >>> dimension = morrisFunction.getInputDimension()
     >>> distribution = ot.ComposedDistribution([ot.Uniform(0.0, 1.0)] * dimension)
     >>> input_sample = distribution.getSample(10)
     >>> output_sample = morrisFunction(input_sample)

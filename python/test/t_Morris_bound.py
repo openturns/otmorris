@@ -14,7 +14,7 @@ h = ot.ParametrizedDistribution(ot.LogNormalMuSigmaOverMu(0.4, 0.05))
 E = ot.ParametrizedDistribution(ot.LogNormalMuSigmaOverMu(3e4, 0.12))
 F = ot.ParametrizedDistribution(ot.LogNormalMuSigmaOverMu(0.1, 0.20))
 list_marginals = [L, b, h, E, F]
-distribution = ot.ComposedDistribution(list_marginals)
+distribution = ot.JointDistribution(list_marginals)
 distribution.setDescription(("L", "b", "h", "E", "F"))
 dim = distribution.getDimension()
 

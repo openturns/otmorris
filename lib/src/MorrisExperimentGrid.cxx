@@ -188,7 +188,7 @@ void MorrisExperimentGrid::setJumpStep(const Indices & jumpStep)
     // level - jS should be at least one, so
     // 1/delta +1 - jS >= 1, which equals 1/delta >= jS
     if (level - jumpStep_[k] <= 0.0)
-      throw InvalidArgumentException(HERE) << "jump step should be an integer choosen in [0, " << 1.0 / delta_[k] << "]";
+      throw InvalidArgumentException(HERE) << "jump step should be an integer chosen in [0, " << 1.0 / delta_[k] << "]";
     jumpStep_[k] = std::max(one, jumpStepK);
     if (jumpStep[k] != jumpStep_[k])
       LOGWARN(OSS() << "Element " << k << " changed. Value set = " << jumpStep_[k]);
@@ -200,7 +200,7 @@ void MorrisExperimentGrid::setJumpStep(const Indices & jumpStep)
   // Check that with N <= full design size
   // otherwise we update N
   if (!(N_ <= fullDesignSize))
-    throw InvalidArgumentException (HERE) << "You are requiring " << N_ << " trajectories whereas number of possibilites is " << fullDesignSize;
+    throw InvalidArgumentException (HERE) << "You are requiring " << N_ << " trajectories whereas number of possibilities is " << fullDesignSize;
 }
 
 /* String converter */

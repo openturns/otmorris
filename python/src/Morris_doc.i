@@ -25,17 +25,23 @@ Notes
 We note :math:`\cM:\Rset^p \mapsto \Rset^q` with :math:`\cM(\vect{x})= \vect{y}`.
 
 The Morris method is a screening method, which is known to be very efficient in case of huge number of input parameters (p >> 1).
-It is a qualitative sensitivity analysis method which is based on design of experiments and allows to identify the few important factors at a cost of r * (p + 1) simulations.
+It is a qualitative sensitivity analysis method which is based on design of experiments and allows to identify
+the few important factors at a cost of :math:`r (p + 1)` simulations.
 The experiments are of type OAT (One At Time); i.e. only one parameter vary at a time.
 
 The method helps to split input parameters into three groups:
 
- - Those with negligible effects on the output,
- - Those with significant and linear effects on the output,
- - Those with significant and non linear (or with interactions) effects on the
-   output.
+- Those with negligible effects on the output,
+- Those with significant and linear effects on the output,
+- Those with significant and non linear (or with interactions) effects on the output.
 
- The method rely on input designs defined in the hypersphere unit. To sum up the key points of the method, we consider a point named :math:`\vect{x^*}` in this hypersphere and a parameter :math:`\delta` (parameter of discretization if we consider a regular experiment for example). Starting from the point, we choose randomly one direction by increasing\slash decreasing one component one component of the point :math:`\vect{x^*}` with :math:`\delta`. Conditionnaly to this direction, we choose then the p-1 directions by randomly selecting one direction at time. We get then a trajectory (path).
+The method rely on input designs defined in the hypersphere unit.
+To sum up the key points of the method, we consider a point named :math:`\vect{x^*}` in this hypersphere
+and a parameter :math:`\delta` (parameter of discretization if we consider a regular experiment for example).
+Starting from the point, we choose randomly one direction by increasing\slash decreasing one component
+of the point :math:`\vect{x^*}` with :math:`\delta`.
+Conditionally to this direction, we choose then the :math:`p-1` directions by randomly selecting one direction at time.
+We get then a trajectory (path).
 
 The Morris method rely on the evaluation of elementary effects which are defined as follow:
 
@@ -43,7 +49,8 @@ The Morris method rely on the evaluation of elementary effects which are defined
 
     d_{i}(\vect{x}^k) = \frac{\cM(x_1^k,\hdots, x_{i-1}^k, x_i^k + \delta,\hdots, x_p^k) - \cM(x_1^k,\hdots, x_{i-1}^k, x_i^k,\hdots, x_p^k)}{\delta}
 
-With :math:`N` trajectories, we get the mean and standard deviation of these effects (we consider the mean of absolute mean effects in our case). The mean explains the sensitivity wheras the standard deviation explains the interactions and non linear effects.
+With :math:`N` trajectories, we get the mean and standard deviation of these effects (we consider the mean of absolute mean effects in our case).
+The mean explains the sensitivity whereas the standard deviation explains the interactions and non linear effects.
 
 With the first constructor, we consider that input experiment has been generated thanks to the :class:`~otmorris.MorrisExperiment` and output is evaluated outside the platform.
 With second constructor, the output is evaluated inside the platform.

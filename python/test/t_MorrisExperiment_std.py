@@ -11,7 +11,7 @@ morris_experiment = otmorris.MorrisExperimentGrid([5, 5], r)
 X = morris_experiment.generate()
 print("Morris experiment generated from grid = ", X)
 
-# Validation : check that for all trajectories, each direction is choosen once
+# Validation : check that for all trajectories, each direction is chosen once
 for n in range(r):
     first_element = n * (X.getDimension() + 1)
     last_element = first_element + (X.getDimension() + 1)

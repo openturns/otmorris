@@ -4,7 +4,7 @@ Example 1: Morris use-case and p-level input grid
 """
 
 # %%
-# To define the trajectories, we suppose that the box :math:`[0,1]^{20}` is splitted into a p-level grid (p=5).
+# To define the trajectories, we suppose that the box :math:`[0,1]^{20}` is split into a p-level grid (p=5).
 # We set the number of trajectories input variables are randomly to 10.
 
 # %%

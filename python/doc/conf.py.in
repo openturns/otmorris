@@ -66,16 +66,32 @@ if subprocess.run(['dvisvgm', '-V'], shell=True, capture_output=True).returncode
 # embed image files inside html
 imgmath_embed = True
 
-extensions.append('matplotlib.sphinxext.plot_directive')
+extensions.append("matplotlib.sphinxext.plot_directive")
+plot_formats = ["svg"]
+plot_rcparams = {"svg.hashsalt": "nacl"}
+plot_pre_code = "import openturns as ot; ot.ResourceMap.Reset(); ot.RandomGenerator.Reset()"
 
 extensions.append('sphinx_copybutton')
 copybutton_prompt_text = ">>> "
 
 extensions.append('sphinx_gallery.gen_gallery')
 sphinx_gallery_conf = {
-     'examples_dirs': ['examples'], # path to example scripts
-     'gallery_dirs': ['auto_examples'], # path to where to save gallery gen. output
-     'show_signature': False,
+    'examples_dirs': ['examples'], # path to example scripts
+    'gallery_dirs': ['auto_examples'], # path to where to save gallery gen. output
+    'show_signature': False,
+    "download_all_examples": False,
+    # directory where function/class granular galleries are stored
+    "backreferences_dir": "gen_modules/backreferences",
+    # Modules for which function/class level galleries are created.
+    'doc_module'          : ('ottemplate'),
+    # objects to exclude from implicit backreferences. The default option
+    # is an empty set, i.e. exclude nothing.
+    'exclude_implicit_doc': {},
+    # The duration of scripts that ran faster than that amount will not be
+    # logged nor embedded in the html output
+    "min_reported_time": 1e6,
+    # omit computation times from all gallery outputs
+    "write_computation_times": False,
 }
 
 # Add any paths that contain templates here, relative to this directory.
@@ -142,7 +158,14 @@ pygments_style = 'sphinx'
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
-html_theme = 'classic'
+html_theme = 'openturns'
+
+# Theme options are theme-specific and customize the look and feel of a theme
+# further.  For a list of options available for each theme, see the
+# documentation.
+# html_theme_options = {}
+# import alabaster
+html_theme_path = ["themes"]
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the

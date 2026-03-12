@@ -19,7 +19,7 @@ print("Morris experiment generated from grid = ", sample1)
 print("Use Case #2 : generate trajectories from initial lhs design")
 size = 20
 # Generate an LHS design
-dist = ot.ComposedDistribution(2 * [ot.Uniform(0, 1)])
+dist = ot.JointDistribution(2 * [ot.Uniform(0, 1)])
 experiment = ot.LHSExperiment(dist, size, True, False)
 lhsDesign = experiment.generate()
 print("Initial LHS design = ", lhsDesign)

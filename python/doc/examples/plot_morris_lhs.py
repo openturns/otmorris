@@ -24,7 +24,7 @@ r = 10
 # %%
 # Define an LHS experiment of size 50 in [0, 1]^20
 size = 50
-dist = ot.ComposedDistribution([ot.Uniform(0, 1)] * dim)
+dist = ot.JointDistribution([ot.Uniform(0, 1)] * dim)
 lhs_experiment = ot.LHSExperiment(dist, size, True, False)
 lhsDesign = lhs_experiment.generate()
 morris_experiment = otmorris.MorrisExperimentLHS(lhsDesign, r)

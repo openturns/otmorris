@@ -31,7 +31,7 @@ class MorrisFunction(ot.OpenTURNSPythonFunction):
     >>> beta =  ot.DistFunc.rNormal(6*14)
     >>> gamma =  ot.DistFunc.rNormal(20*14)
     >>> f = ot.Function(MorrisFunction(alpha, beta, gamma, b0))
-    >>> input_sample = ot.ComposedDistribution([ot.Uniform(0,1)] * 20).getSample(20)
+    >>> input_sample = ot.JointDistribution([ot.Uniform(0,1)] * 20).getSample(20)
     >>> output_sample = f(input_sample)
 
     """

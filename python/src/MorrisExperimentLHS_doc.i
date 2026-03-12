@@ -27,7 +27,7 @@ Examples
 >>> # Define experiments in [0,1]^2
 >>> size = 20
 >>> # Generate an LHS design
->>> dist = ot.ComposedDistribution([ot.Uniform(0, 1)] * 2)
+>>> dist = ot.JointDistribution([ot.Uniform(0, 1)] * 2)
 >>> # should be centered so randomShift=False
 >>> lhs_experiment = ot.LHSExperiment(dist, size, True, False)
 >>> lhsDesign = lhs_experiment.generate()

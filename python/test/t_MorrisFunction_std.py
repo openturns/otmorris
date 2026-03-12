@@ -4,24 +4,26 @@ import openturns as ot
 import openturns.testing as ott
 import otmorris
 import time
+import numpy as np
 
-f = ot.Function(otmorris.MorrisFunction())
-dim = f.getInputDimension()
-x1 = [0.3] * dim
-x2 = [0.4] * dim
-x3 = [0.5] * dim
-y1 = f(x1)
-y2 = f(x2)
-y3 = f(x3)
-print(y1, y2, y3)
-ott.assert_almost_equal(y1, [-17.738])
-ott.assert_almost_equal(y2, [19.2912])
-ott.assert_almost_equal(y3, [50])
+ot.RandomGenerator.SetSeed(1)
+b0_random = ot.DistFunc.rNormal()
+b1_random = ot.DistFunc.rNormal(10)
+b2_random = ot.DistFunc.rNormal(175)
+g = ot.Function(otmorris.MorrisFunction(b0_random, b1_random, b2_random))
+dim = g.getInputDimension()
 
-X = ot.Normal([0.4] * dim, [0.1] * dim, ot.CorrelationMatrix(dim))
+# Check accuracy
+x = np.linspace(0.0, 1.0, 20)
+y = g(x)
+ott.assert_almost_equal(y, [-65.75761172072895])
+
+# Check speed
+X = ot.ComposedDistribution([ot.Uniform(0.0, 1.0)] * 20)
 N = 1000
-x = X.getSample(N)
+input_sample = X.getSample(N)
 t0 = time.time()
-y = f(x)
+output_sample = g(input_sample)
 t1 = time.time()
-print(N / (t1 - t0), "eval/s")
+elapsed_time = t1 - t0
+print(f"{N / elapsed_time} eval/s")

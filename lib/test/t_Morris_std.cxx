@@ -25,7 +25,7 @@ int main(void)
   Collection<Distribution> coll;
   coll.add(Uniform(0, 1));
   coll.add(Uniform(0, 1));
-  LHSExperiment experiment(ComposedDistribution(coll), size, true, false);
+  LHSExperiment experiment(JointDistribution(coll), size, true, false);
   const Sample lhsDesign(experiment.generate());
   std::cout << "Initial LHS design = " << lhsDesign << std::endl;
   // Generate designs

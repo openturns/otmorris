@@ -23,9 +23,15 @@
 #include <openturns/PersistentObjectFactory.hxx>
 #include "otmorris/MorrisExperimentGrid.hxx"
 #include <openturns/KPermutationsDistribution.hxx>
-#include <openturns/UserDefined.hxx>
 #include <openturns/RandomGenerator.hxx>
 #include <openturns/Log.hxx>
+#if OPENTURNS_VERSION >= 102700
+#include <openturns/FiniteDiscreteDistribution.hxx>
+#else
+#include <openturns/UserDefined.hxx>
+#define FiniteDiscreteDistribution UserDefined
+#endif
+
 
 using namespace OT;
 
@@ -111,7 +117,7 @@ Sample MorrisExperimentGrid::generateTrajectory() const
   Sample admissibleDirections(2, 1);
   admissibleDirections(0, 0) =  -1.0;
   admissibleDirections(1, 0) = 1.0;
-  const UserDefined directionDistribution(admissibleDirections);
+  const FiniteDiscreteDistribution directionDistribution(admissibleDirections);
   // Interval parameters
   const Point lowerBound(interval_.getLowerBound());
   const Point upperBound(interval_.getUpperBound());

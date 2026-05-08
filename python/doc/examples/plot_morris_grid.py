@@ -14,7 +14,10 @@ import otmorris
 
 # %%
 # use the reference 20-d function from the Morris paper
-f = ot.Function(otmorris.MorrisFunction())
+b0 = ot.DistFunc.rNormal()
+b1 = ot.DistFunc.rNormal(10)
+b2 = ot.DistFunc.rNormal(175)
+f = otmorris.BuildMorrisFunction(b0, b1, b2)
 dim = f.getInputDimension()
 
 # %%

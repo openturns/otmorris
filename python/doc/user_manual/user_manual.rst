@@ -115,6 +115,6 @@ Morris function
 .. currentmodule:: otmorris
 .. autosummary::
     :toctree: _generated/
-    :template: class.rst_t
+    :template: function.rst_t
 
-    MorrisFunction
+    BuildMorrisFunction

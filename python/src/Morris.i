@@ -14,93 +14,148 @@
 
 import openturns as ot
 
-class MorrisFunction(ot.OpenTURNSPythonFunction):
-    """
-    The non-monotonic function of Morris f: R^20 -> R
+def BuildMorrisFunction(b0Random=0.0, b1Random=ot.Point(10), b2Random=ot.Point(175)):
+   """
+   Morris test function for sensitivity analysis.
 
-    Reference:
-      M. D. Morris, 1991, Factorial sampling plans for preliminary
-      computational experiments,Technometrics, 33, 161--174.
+   This function has input dimension 20 and output dimension 1.
 
-    Examples
-    --------
-    >>> import openturns as ot
-    >>> ot.RandomGenerator.SetSeed(123)
-    >>> b0 = ot.DistFunc.rNormal()
-    >>> alpha = ot.DistFunc.rNormal(10)
-    >>> beta =  ot.DistFunc.rNormal(6*14)
-    >>> gamma =  ot.DistFunc.rNormal(20*14)
-    >>> f = ot.Function(MorrisFunction(alpha, beta, gamma, b0))
-    >>> input_sample = ot.JointDistribution([ot.Uniform(0,1)] * 20).getSample(20)
-    >>> output_sample = f(input_sample)
+   Parameters
+   ----------
+   b0Random : float, optional
+      The constant term. Default is 0.0.
+   b1Random : ot.Point(10), optional
+      Random linear coefficients for dimensions 11-20. Default is zeros.
+   b2Random : ot.Point(175), optional
+      Random quadratic coefficients. Default is zeros.
 
-    """
-    def __init__(self, alpha = ot.Point(10), beta = ot.Point(14*6),\
-                 gamma = ot.Point(20*14), b0 = 0.0):
-        ot.OpenTURNSPythonFunction.__init__(self, 20, 1)
-        self.b0 = float(b0)
-        # Check alpha dimension
-        assert(len(alpha) == 10)
-        self.b1 = [20] * 10 + list(alpha)
-        # Check beta and gamma dimension
-        assert(len(beta) == 6 * 14)
-        assert(len(gamma) == 20 * 14)
-        self.b2 = [[0] *20] * 20
-        for i in range(6):
-            for j in range(6):
-                self.b2[i][j] = -15.0
-        # Take into account beta
-        k = 0
-        for i in range(6):
-            for j in range(14):
-                self.b2[i][j + 6] = beta[k]
-                k = k + 1
-        # Take into account gamma
-        k = 0
-        for i in range(6, 20):
-            for j in range(20):
-                self.b2[i][j] = gamma[k]
+   References
+   ----------
+   - M. D. Morris, 1991, Factorial sampling plans for preliminary
+     computational experiments, Technometrics, 33, 161-174.
 
-        # b3
-        self.b3 = [[[0]*20]*20]*20
-        for i in range(5):
-            for j in range(5):
-                for k in range(5):
-                    self.b3[i][j][k] = -10.0
-        # b4
-        self.b4 = [[[[0]*20]*20]*20]*20
-        for i in range(4):
-            for j in range(4):
-                for k in range(4):
-                    for l in range(4):
-                        self.b4[i][j][k][l] = 5
+   Examples
+   --------
+   >>> import openturns as ot
+   >>> ot.RandomGenerator.SetSeed(123)
+   >>> b0Random = ot.DistFunc.rNormal()
+   >>> b1Random = ot.DistFunc.rNormal(10)
+   >>> b2Random = ot.DistFunc.rNormal(175)
+   >>> function = BuildMorrisFunction(b0Random, b1Random, b2Random)
+   >>> dimension = function.getInputDimension()
+   >>> distribution = ot.JointDistribution([ot.Uniform(0.0, 1.0)] * dimension)
+   >>> inputSample = distribution.getSample(10)
+   >>> outputSample = function(inputSample)
+   """
+   if not isinstance(b0Random, float):
+      raise ValueError(f"b0Random must be float, got {type(b0Random)}")
 
-    def _exec(self, x):
-        assert (len(x)==20)
-        b1 = self.b1
-        b2 = self.b2
-        b3 = self.b3
-        b4 = self.b4
-        # X is a list, transform it into array
-        X = ot.Point(x)
-        w = (X - [0.5]*20)*2
-        for k in [2,4,6]:
-           w[k] = 2.0 * (1.1 * X[k] / (X[k] + 0.1) - 0.5)
-        y = w.dot(b1)
-        # Morris function
-        for i in range(19):
-            for j in range(i + 1, 20):
-                y +=  b2[i][j] * w[i] * w[j]
-        for i in range(18):
-            for j in range(i + 1, 19):
-                for k in range(j + 1, 20):
-                    y += b3[i][j][k] * w[i] * w[j] * w[k]
+   if len(b1Random) != 10:
+      raise ValueError(f"b1Random must have length 10, got {len(b1Random)}")
 
-        for i in range(17):
-            for j in range(i + 1, 18):
-                for k in range(j + 1, 20):
-                    for l in range(k + 1, 20):
-                        y += b4[i][j][k][l] * w[i] * w[j] * w[k] * w[l]
+   if len(b2Random) != 175:
+      raise ValueError(f"b2Random must have length 175, got {len(b2Random)}")
 
-        return [y + self.b0]
+   def fmt(x):
+      """Format floating point constants for ExprTk."""
+      return format(float(x), ".17g")
+
+   inputVariables = ot.Description.BuildDefault(20, "x")
+
+   b0 = fmt(b0Random)
+
+   # b1[0:10] = 20, b1[10:20] = b1Random
+   b1 = [20.0] * 10 + list(b1Random)
+
+   b1Expr = ",".join(fmt(v) for v in b1)
+   b2Expr = ",".join(fmt(v) for v in b2Random)
+
+   expr = f"""
+var x[20] := {{
+   x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,
+   x10,x11,x12,x13,x14,x15,x16,x17,x18,x19
+}};
+
+var b0 := {b0};
+
+var b1[20] := {{
+   {b1Expr}
+}};
+
+var b2Random[175] := {{
+   {b2Expr}
+}};
+
+var y := b0;
+
+/* build w */
+var w[20];
+
+for (var i := 0; i < 20; i += 1)
+{{
+   w[i] := 2 * (x[i] - 0.5);
+}};
+
+/* nonlinear indices: Python indices 2, 4, 6 */
+w[2] := 2 * (1.1 * x[2] / (x[2] + 0.1) - 0.5);
+w[4] := 2 * (1.1 * x[4] / (x[4] + 0.1) - 0.5);
+w[6] := 2 * (1.1 * x[6] / (x[6] + 0.1) - 0.5);
+
+/* linear term */
+for (var i := 0; i < 20; i += 1)
+{{
+   y += b1[i] * w[i];
+}};
+
+/* quadratic term */
+var randomIndex := 0;
+
+for (var i := 0; i < 20; i += 1)
+{{
+   for (var j := i + 1; j < 20; j += 1)
+   {{
+      if ((i < 6) and (j < 6))
+      {{
+         y += -15.0 * w[i] * w[j];
+      }}
+      else
+      {{
+         y += b2Random[randomIndex] * w[i] * w[j];
+         randomIndex += 1;
+      }};
+   }};
+}};
+
+/* cubic term: i < j < k, first 5 variables only */
+for (var i := 0; i < 5; i += 1)
+{{
+   for (var j := i + 1; j < 5; j += 1)
+   {{
+      for (var k := j + 1; k < 5; k += 1)
+      {{
+         y += -10.0 * w[i] * w[j] * w[k];
+      }};
+   }};
+}};
+
+/* quartic term: i < j < k < ell, first 4 variables only */
+for (var i := 0; i < 4; i += 1)
+{{
+   for (var j := i + 1; j < 4; j += 1)
+   {{
+      for (var k := j + 1; k < 4; k += 1)
+      {{
+         for (var ell := k + 1; ell < 4; ell += 1)
+         {{
+            y += 5.0 * w[i] * w[j] * w[k] * w[ell];
+         }};
+      }};
+   }};
+}};
+
+y
+"""
+   g = ot.SymbolicFunction(inputVariables, [expr])
+   return g
+
 %}

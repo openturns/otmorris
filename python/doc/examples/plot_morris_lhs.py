@@ -14,7 +14,10 @@ import openturns.viewer as otv
 
 # %%
 # use the reference 20-d function from the Morris paper
-f = ot.Function(otmorris.MorrisFunction())
+b0Random = ot.DistFunc.rNormal()
+b1Random = ot.DistFunc.rNormal(10)
+b2Random = ot.DistFunc.rNormal(175)
+f = otmorris.BuildMorrisFunction(b0Random, b1Random, b2Random)
 dim = f.getInputDimension()
 
 # %%

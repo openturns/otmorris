@@ -14,7 +14,7 @@
 
 import openturns as ot
 
-def BuildMorrisFunction(b0Random=0.0, b1Random=ot.Point(10), b2Random=ot.Point(175)):
+def BuildMorrisFunction(b0Random=0.0, b1Random=None, b2Random=None):
    """
    Morris test function for sensitivity analysis.
 
@@ -24,9 +24,9 @@ def BuildMorrisFunction(b0Random=0.0, b1Random=ot.Point(10), b2Random=ot.Point(1
    ----------
    b0Random : float, optional
       The constant term. Default is 0.0.
-   b1Random : ot.Point(10), optional
+   b1Random : sequence of float, of size 10, optional
       Random linear coefficients for dimensions 11-20. Default is zeros.
-   b2Random : ot.Point(175), optional
+   b2Random : sequence of float, of size 175, optional
       Random quadratic coefficients. Default is zeros.
 
    References
@@ -47,6 +47,11 @@ def BuildMorrisFunction(b0Random=0.0, b1Random=ot.Point(10), b2Random=ot.Point(1
    >>> inputSample = distribution.getSample(10)
    >>> outputSample = function(inputSample)
    """
+   if b1Random is None:
+      b1Random = ot.Point(10)
+   if b2Random is None:
+      b2Random = ot.Point(175)
+
    if not isinstance(b0Random, float):
       raise ValueError(f"b0Random must be float, got {type(b0Random)}")
 
@@ -56,15 +61,12 @@ def BuildMorrisFunction(b0Random=0.0, b1Random=ot.Point(10), b2Random=ot.Point(1
    if len(b2Random) != 175:
       raise ValueError(f"b2Random must have length 175, got {len(b2Random)}")
 
-   def fmt(x):
-      """Format floating point constants for ExprTk."""
-      return format(float(x), ".17g")
+   fmt = lambda x: format(float(x), ".17g")
 
    inputVariables = ot.Description.BuildDefault(20, "x")
 
    b0 = fmt(b0Random)
 
-   # b1[0:10] = 20, b1[10:20] = b1Random
    b1 = [20.0] * 10 + list(b1Random)
 
    b1Expr = ",".join(fmt(v) for v in b1)

@@ -24,12 +24,7 @@
 #include <openturns/KPermutationsDistribution.hxx>
 #include <openturns/RandomGenerator.hxx>
 #include <openturns/Log.hxx>
-#if OPENTURNS_VERSION >= 102700
 #include <openturns/FiniteDiscreteDistribution.hxx>
-#else
-#include <openturns/UserDefined.hxx>
-#define FiniteDiscreteDistribution UserDefined
-#endif
 
 using namespace OT;
 
@@ -53,8 +48,8 @@ MorrisExperimentLHS::MorrisExperimentLHS(const Sample & lhsDesign, const Unsigne
 MorrisExperimentLHS::MorrisExperimentLHS(const Sample & lhsDesign, const UnsignedInteger N, const Interval & bounds)
   : MorrisExperiment((bounds.getUpperBound() - bounds.getLowerBound()) / lhsDesign.getSize(), N, bounds)
   , experiment_(lhsDesign)
-
 {
+  // Nothing to do
 }
 
 /* Virtual constructor method */
@@ -106,7 +101,9 @@ Sample MorrisExperimentLHS::generate() const
   Bool addTrajectories(false);
   if (uniqueTrajectories.getSize() != N_)
     addTrajectories = true;
-  while (addTrajectories)
+  const UnsignedInteger maxIter = N_ * 1000;
+  UnsignedInteger iteration = 0;
+  while (addTrajectories && iteration < maxIter)
   {
     // Add a trajectory
     Sample newTrajectory(generateTrajectory(RandomGenerator::IntegerGenerate(size)));
@@ -114,7 +111,10 @@ Sample MorrisExperimentLHS::generate() const
     // Sort and keep unique data
     uniqueTrajectories = uniqueTrajectories.sortUnique();
     addTrajectories = uniqueTrajectories.getSize() < N_;
+    ++ iteration;
   }
+  if (uniqueTrajectories.getSize() < N_)
+    throw InternalException(HERE) << "In MorrisExperimentLHS::generate, unable to generate " << N_ << " distinct trajectories";
   // return sample
   realizations = Sample(uniqueTrajectories.getSize() * (dimension + 1), dimension);
   realizations.getImplementation()->setData(uniqueTrajectories.getImplementation()->getData());

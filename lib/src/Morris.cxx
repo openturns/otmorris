@@ -110,6 +110,9 @@ void Morris::computeEffects(const UnsignedInteger N)
   const UnsignedInteger inputDimension(inputSample_.getDimension());
   const UnsignedInteger outputDimension(outputSample_.getDimension());
   const Point diff_bounds(interval_.getUpperBound() - interval_.getLowerBound());
+  for (UnsignedInteger j = 0; j < inputDimension; ++j)
+    if (diff_bounds[j] <= 0.0)
+      throw InvalidArgumentException(HERE) << "In Morris::computeEffects, interval has zero width in dimension " << j;
   Sample elementaryEffects(N, inputDimension * outputDimension);
   Sample absoluteElementaryEffects(N, inputDimension * outputDimension);
   SquareMatrix dx(inputDimension, inputDimension);

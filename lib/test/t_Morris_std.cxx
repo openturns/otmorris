@@ -31,7 +31,7 @@ int main(void)
   // Generate designs
   const MorrisExperimentLHS morris_experiment_lhs(lhsDesign, r);
   const Interval lhs_bound(morris_experiment_lhs.getBounds());
-  const Sample sample2(morris_experiment.generate());
+  const Sample sample2(morris_experiment_lhs.generate());
   std::cout << "Morris experiment generated from LHS = " << sample2 << std::endl;
 
   // Define model

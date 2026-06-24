@@ -20,17 +20,13 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
  *
  */
+#include <cmath>
 #include <openturns/PersistentObjectFactory.hxx>
 #include "otmorris/MorrisExperimentGrid.hxx"
 #include <openturns/KPermutationsDistribution.hxx>
 #include <openturns/RandomGenerator.hxx>
 #include <openturns/Log.hxx>
-#if OPENTURNS_VERSION >= 102700
 #include <openturns/FiniteDiscreteDistribution.hxx>
-#else
-#include <openturns/UserDefined.hxx>
-#define FiniteDiscreteDistribution UserDefined
-#endif
 
 
 using namespace OT;
@@ -67,12 +63,12 @@ MorrisExperimentGrid::MorrisExperimentGrid(const Indices & levels, const Unsigne
   // Set levels/delta
   for (UnsignedInteger k = 0; k < levels.getSize(); ++k)
   {
-    if (!(levels[k] > 2))
+    if (!(levels[k] > 1))
       throw InvalidArgumentException(HERE) << "Levels should be at least 2; levels[" << k << "]=" << levels[k];
     delta_[k] = 1.0 / (levels[k] - 1.0);
   }
   // Set jump step & check number of trajectories
-  setJumpStep(Indices(levels.getSize(), 1.0));
+  setJumpStep(Indices(levels.getSize(), 1));
 }
 
 /* Virtual constructor method */
@@ -94,14 +90,19 @@ Sample MorrisExperimentGrid::generate() const
   uniqueTrajectories.getImplementation()->setData(realizations.getImplementation()->getData());
   // Sort and keep unique data
   uniqueTrajectories = uniqueTrajectories.sortUnique();
-  while (uniqueTrajectories.getSize() < N_)
+  const UnsignedInteger maxIter = N_ * 1000;
+  UnsignedInteger iteration = 0;
+  while (uniqueTrajectories.getSize() < N_ && iteration < maxIter)
   {
     // Add a trajectory
     Sample newTrajectory(generateTrajectory());
     uniqueTrajectories.add(newTrajectory.getImplementation()->getData());
     // Sort and keep unique data
     uniqueTrajectories = uniqueTrajectories.sortUnique();
+    ++ iteration;
   }
+  if (uniqueTrajectories.getSize() < N_)
+    throw InternalException(HERE) << "In MorrisExperimentGrid::generate, unable to generate " << N_ << " distinct trajectories";
   // return sample
   realizations = Sample(uniqueTrajectories.getSize() * (dimension + 1), dimension);
   realizations.getImplementation()->setData(uniqueTrajectories.getImplementation()->getData());
@@ -132,7 +133,7 @@ Sample MorrisExperimentGrid::generateTrajectory() const
   Point xBase(dimension, 0.0);
   for (UnsignedInteger p = 0; p < dimension; ++p)
   {
-    const UnsignedInteger level = static_cast<UnsignedInteger>(1.0 + 1.0 / delta_[p]);
+    const UnsignedInteger level = static_cast<UnsignedInteger>(std::round(1.0 / delta_[p])) + 1;
     xBase[p] = delta_[p] * RandomGenerator::IntegerGenerate(level - jumpStep_[p]);
   }
   Log::Info(OSS() << "Generated point = " << xBase);
@@ -189,11 +190,11 @@ void MorrisExperimentGrid::setJumpStep(const Indices & jumpStep)
   {
     const UnsignedInteger one = 1;
     const UnsignedInteger jumpStepK = static_cast<UnsignedInteger>(std::floor(jumpStep[k]));
-    const UnsignedInteger level = static_cast<UnsignedInteger>(1.0 + 1.0 / delta_[k]);
+    const UnsignedInteger level = static_cast<UnsignedInteger>(std::round(1.0 / delta_[k])) + 1;
     // Check on jumpStep value
     // level - jS should be at least one, so
     // 1/delta +1 - jS >= 1, which equals 1/delta >= jS
-    if (level - jumpStep_[k] <= 0.0)
+    if (jumpStepK >= level)
       throw InvalidArgumentException(HERE) << "jump step should be an integer chosen in [0, " << 1.0 / delta_[k] << "]";
     jumpStep_[k] = std::max(one, jumpStepK);
     if (jumpStep[k] != jumpStep_[k])

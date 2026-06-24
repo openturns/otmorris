@@ -66,10 +66,6 @@ protected:
   MorrisExperimentLHS() {};
   friend class OT::Factory<MorrisExperimentLHS>;
 
-  // generate method with lhs design
-  OT::Point generateXBaseFromLHS() const;
-
-
 private:
 
   // Sample for experiment

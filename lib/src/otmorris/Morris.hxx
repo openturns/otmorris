@@ -53,6 +53,7 @@ public:
   OT::Point getMeanAbsoluteElementaryEffects(const OT::UnsignedInteger outputMarginal = 0) const;
   OT::Point getMeanElementaryEffects(const OT::UnsignedInteger outputMarginal = 0) const;
   OT::Point getStandardDeviationElementaryEffects(const OT::UnsignedInteger outputMarginal = 0) const;
+  OT::Sample getElementaryEffects(const OT::UnsignedInteger outputMarginal = 0) const;
 
   // Draw result
   OT::Graph drawElementaryEffects(OT::UnsignedInteger outputMarginal = 0, OT::Bool absoluteMean = true) const;
@@ -79,6 +80,7 @@ private:
   OT::Sample outputSample_;
   OT::Interval interval_; // Bounds
   // Elementary effects ==> N x (p*q) sample
+  OT::Sample elementaryEffects_;
   OT::Sample elementaryEffectsMean_;
   OT::Sample elementaryEffectsStandardDeviation_;
   OT::Sample absoluteElementaryEffectsMean_;

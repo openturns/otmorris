@@ -146,6 +146,25 @@ standardDeviation : :py:class:`openturns.Point`
 
 // ---------------------------------------------------------------------
 
+%feature("docstring") OTMORRIS::Morris::getElementaryEffects
+"Get the sample of elementary effects.
+
+Each row corresponds to a trajectory and each column to an input variable.
+
+Parameters
+----------
+marginal : int, optional
+    Output marginal of interest. Default is 0.
+
+Returns
+-------
+effects : :py:class:`openturns.Sample`
+    The elementary effects, of size number of trajectories
+    times input dimension.
+"
+
+// ---------------------------------------------------------------------
+
 %feature("docstring") OTMORRIS::Morris::getInputSample
 "Accessor to the input sample.
 

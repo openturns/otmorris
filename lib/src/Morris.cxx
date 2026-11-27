@@ -25,6 +25,7 @@
 #include <openturns/PersistentObjectFactory.hxx>
 #include <openturns/Cloud.hxx>
 #include <openturns/Text.hxx>
+#include <algorithm>
 
 
 using namespace OT;
@@ -47,6 +48,7 @@ Morris::Morris(const Sample & inputSample, const Sample & outputSample,  const I
   , inputSample_(inputSample)
   , outputSample_(outputSample)
   , interval_(interval)
+  , elementaryEffects_()
   , elementaryEffectsMean_()
   , elementaryEffectsStandardDeviation_()
   , absoluteElementaryEffectsMean_()
@@ -72,6 +74,7 @@ Morris::Morris(const MorrisExperiment & experiment, const Function & model)
   , inputSample_()
   , outputSample_()
   , interval_(experiment.getBounds())
+  , elementaryEffects_()
   , elementaryEffectsMean_()
   , elementaryEffectsStandardDeviation_()
   , absoluteElementaryEffectsMean_()
@@ -113,7 +116,15 @@ void Morris::computeEffects(const UnsignedInteger N)
   for (UnsignedInteger j = 0; j < inputDimension; ++j)
     if (diff_bounds[j] <= 0.0)
       throw InvalidArgumentException(HERE) << "In Morris::computeEffects, interval has zero width in dimension " << j;
-  Sample elementaryEffects(N, inputDimension * outputDimension);
+  elementaryEffects_ = Sample(N, inputDimension * outputDimension);
+  // Set description from input sample for usability
+  Description eeDescription(inputDimension * outputDimension);
+  const Description inputDescription(inputSample_.getDescription());
+  const Description outputDescription(outputSample_.getDescription());
+  for (UnsignedInteger k = 0; k < outputDimension; ++ k)
+    for (UnsignedInteger j = 0; j < inputDimension; ++ j)
+      eeDescription[k * inputDimension + j] = inputDescription[j] + "_" + outputDescription[k];
+  elementaryEffects_.setDescription(eeDescription);
   Sample absoluteElementaryEffects(N, inputDimension * outputDimension);
   SquareMatrix dx(inputDimension, inputDimension);
   Matrix dy(inputDimension, outputDimension);
@@ -137,7 +148,7 @@ void Morris::computeEffects(const UnsignedInteger N)
     // Solve linear system
     ee = dx.solveLinearSystem(dy);
     // Stores the elementary effects
-    elementaryEffects[k] = Point(*ee.getImplementation());
+    elementaryEffects_[k] = Point(*ee.getImplementation());
     absoluteElementaryEffects[k] = Point(*ee.getImplementation());
     for (UnsignedInteger j = 0; j < inputDimension * outputDimension; ++j)
       absoluteElementaryEffects[k][j] = std::abs(absoluteElementaryEffects[k][j]);
@@ -149,9 +160,9 @@ void Morris::computeEffects(const UnsignedInteger N)
   elementaryEffectsStandardDeviation_ = Sample(outputDimension, inputDimension);
   // Evaluate mean/std
   // elementary effects compute mean
-  elementaryEffectsMean_.getImplementation()->setData(elementaryEffects.computeMean());
+  elementaryEffectsMean_.getImplementation()->setData(elementaryEffects_.computeMean());
   absoluteElementaryEffectsMean_.getImplementation()->setData(absoluteElementaryEffects.computeMean());
-  elementaryEffectsStandardDeviation_.getImplementation()->setData(elementaryEffects.computeStandardDeviation());
+  elementaryEffectsStandardDeviation_.getImplementation()->setData(elementaryEffects_.computeStandardDeviation());
 }
 
 /* Virtual constructor method */
@@ -179,6 +190,23 @@ Point Morris::getStandardDeviationElementaryEffects(const UnsignedInteger margin
 {
   if (marginal >= elementaryEffectsStandardDeviation_.getSize()) throw InvalidArgumentException(HERE) << "Cannot exceed dimension";
   return elementaryEffectsStandardDeviation_[marginal];
+}
+
+/* Elementary effects sample */
+Sample Morris::getElementaryEffects(const UnsignedInteger marginal) const
+{
+  const UnsignedInteger outputDimension = outputSample_.getDimension();
+  if (marginal >= outputDimension) throw InvalidArgumentException(HERE) << "Cannot exceed output dimension";
+  const UnsignedInteger inputDimension = inputSample_.getDimension();
+  const UnsignedInteger size = elementaryEffects_.getSize();
+  Sample result(size, inputDimension);
+  result.setDescription(inputSample_.getDescription());
+  const UnsignedInteger offset = marginal * inputDimension;
+  const UnsignedInteger totalDimension = inputDimension * outputDimension;
+  const Scalar * srcBase = elementaryEffects_.data();
+  for (UnsignedInteger i = 0; i < size; ++ i)
+    std::copy(srcBase + i * totalDimension + offset, srcBase + i * totalDimension + offset + inputDimension, &result(i, 0));
+  return result;
 }
 
 
@@ -217,6 +245,7 @@ String Morris::__repr__() const
   oss << "class=" << Morris::GetClassName()
       << ", input sample=" << inputSample_
       << ", output sample=" << outputSample_
+      << ", ee=" << elementaryEffects_
       << ", ee mean= " << elementaryEffectsMean_
       << ", absolute ee mean= " << absoluteElementaryEffectsMean_
       << ", ee std= " << elementaryEffectsStandardDeviation_;
@@ -240,6 +269,8 @@ void Morris::save(Advocate & adv) const
   PersistentObject::save( adv );
   adv.saveAttribute( "inputSample_", inputSample_ );
   adv.saveAttribute( "outputSample_", outputSample_ );
+  adv.saveAttribute( "interval_", interval_ );
+  adv.saveAttribute( "elementaryEffects_", elementaryEffects_ );
   adv.saveAttribute( "elementaryEffectsMean_", elementaryEffectsMean_ );
   adv.saveAttribute( "elementaryEffectsStandardDeviation_", elementaryEffectsStandardDeviation_ );
   adv.saveAttribute( "absoluteElementaryEffectsMean_", absoluteElementaryEffectsMean_ );
@@ -251,9 +282,21 @@ void Morris::load(Advocate & adv)
   PersistentObject::load( adv );
   adv.loadAttribute( "inputSample_", inputSample_ );
   adv.loadAttribute( "outputSample_", outputSample_ );
+  if (adv.hasAttribute("interval_"))
+    adv.loadAttribute( "interval_", interval_ );
   adv.loadAttribute( "elementaryEffectsMean_", elementaryEffectsMean_ );
   adv.loadAttribute( "elementaryEffectsStandardDeviation_", elementaryEffectsStandardDeviation_ );
   adv.loadAttribute( "absoluteElementaryEffectsMean_", absoluteElementaryEffectsMean_ );
+  if (adv.hasAttribute("elementaryEffects_"))
+    adv.loadAttribute( "elementaryEffects_", elementaryEffects_ );
+  else if (adv.hasAttribute("interval_"))
+  {
+    // Backward compatibility: recompute elementary effects from samples
+    const UnsignedInteger inputDimension = inputSample_.getDimension();
+    const UnsignedInteger size = inputSample_.getSize();
+    const UnsignedInteger N = static_cast<UnsignedInteger>(size / (inputDimension + 1));
+    computeEffects(N);
+  }
 }
 
 

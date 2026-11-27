@@ -1,31 +1,29 @@
 #! /usr/bin/env python
 
 import openturns as ot
+import openturns.testing as ott
 import otmorris
 
-# Use Case 1 : define a k-grid level (so delta = 1/(k-1))
+ot.RandomGenerator.SetSeed(0)
 r = 5
-# Define experiments in [0,1]^2
-print("Use Case #1 : generate trajectories from regular grid")
 morris_experiment = otmorris.MorrisExperimentGrid([5, 5], r)
 X = morris_experiment.generate()
-print("Morris experiment generated from grid = ", X)
+assert X.getSize() == r * 3
+assert X.getDimension() == 2
 
-# Validation : check that for all trajectories, each direction is chosen once
+# Each trajectory step moves a single coordinate by delta=0.25
+delta = 0.25
 for n in range(r):
-    first_element = n * (X.getDimension() + 1)
-    last_element = first_element + (X.getDimension() + 1)
-    dx = X[first_element + 1: last_element] - X[first_element: (last_element - 1)]
-    print("#%d", n + 1)
-    print("dx=", dx)
-
-# Use Case 2 : Use of initial LHS design
+    first = n * (X.getDimension() + 1)
+    for i in range(X.getDimension()):
+        step = X[first + i + 1] - X[first + i]
+        nonzero = [abs(v) > 1e-12 for v in step]
+        assert sum(nonzero) == 1
+        for v in step:
+            if abs(v) > 1e-12:
+                ott.assert_almost_equal(abs(v), delta)
 
 ot.RandomGenerator.SetSeed(1)
-
-# Use Case : starting from an LHS
-# OT does not allow yet to manage centered lhs designs, so a design has
-# been generated outside OT
 lhs = ot.Sample(
     [
         [0.875, 0.575],
@@ -50,18 +48,19 @@ lhs = ot.Sample(
         [0.575, 0.425],
     ]
 )
-print("Use Case #2 : generate trajectories from initial lhs design")
-print("Initial LHS design = ", lhs)
 
-# generate designs
 morris_experiment = otmorris.MorrisExperimentLHS(lhs, r)
 Y = morris_experiment.generate()
-print("Morris experiment generated from LHS = ", Y)
+assert Y.getSize() == r * 3
+assert Y.getDimension() == 2
 
-# Validation
+# delta = 1 / lhs size = 0.05, single-coordinate steps
 for n in range(r):
-    first_element = n * (Y.getDimension() + 1)
-    last_element = first_element + (Y.getDimension() + 1)
-    dy = Y[first_element + 1: last_element] - Y[first_element: (last_element - 1)]
-    print("#%d", n + 1)
-    print("dy=", dy)
+    first = n * (Y.getDimension() + 1)
+    for i in range(Y.getDimension()):
+        step = Y[first + i + 1] - Y[first + i]
+        nonzero = [abs(v) > 1e-12 for v in step]
+        assert sum(nonzero) == 1
+        for v in step:
+            if abs(v) > 1e-12:
+                ott.assert_almost_equal(abs(v), 0.05)
